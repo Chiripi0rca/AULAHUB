@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservar Aula - FIC</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background-color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .menu-icon, .bell-icon, .profile {
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .content h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 15px;
+      padding: 15px 20px;
+      margin: 10px 0;
+      width: 90%;
+      max-width: 400px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      background-color: #fafafa;
+    }
+
+    .icon {
+      font-size: 40px;
+      margin-right: 18px;
+    }
+
+    .card-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card-text strong {
+      font-size: 16px;
+      color: #111;
+    }
+
+    .card-text span {
+      font-size: 14px;
+      color: #666;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px 0;
+      font-size: 13px;
+      color: #777;
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="menu-icon">☰</div>
+    <div class="bell-icon">🔔</div>
+    <div class="profile">👤</div>
+  </header>
+
+  <div class="content">
+    <h2>Selecciona el aula a reservar</h2>
+
+    <div class="card" onclick="location.href='reserva.html?aula=labA'">
+      <div class="icon">💻</div>
+      <div class="card-text">
+        <strong>Laboratorio de Cómputo A</strong>
+        <span>Mediano, 50 equipos</span>
+      </div>
+    </div>
+
+    <div class="card" onclick="location.href='reserva.html?aula=labB'">
+      <div class="icon">💻</div>
+      <div class="card-text">
+        <strong>Laboratorio de Cómputo B</strong>
+        <span>Pequeño, 30 equipos</span>
+      </div>
+    </div>
+
+    <div class="card" onclick="location.href='reserva.html?aula=centro'">
+      <div class="icon">💻</div>
+      <div class="card-text">
+        <strong>Centro de Cómputo</strong>
+        <span>Pequeño, 30 equipos</span>
+      </div>
+    </div>
+
+    <div class="card" onclick="location.href='reserva.html?aula=auditorio'">
+      <div class="icon">🎤</div>
+      <div class="card-text">
+        <strong>Auditorio</strong>
+        <span>Grande, 100 personas</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Facultad de Informática Culiacán - 2025
+  </footer>
+
+</body>
+</html>
