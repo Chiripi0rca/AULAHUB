@@ -2,7 +2,7 @@ import { auth} from "./Firebase-Config.js";
 import {
   signInWithEmailAndPassword,
   signOut
-} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
 // --- Inicio de sesión ---
 document.getElementById("login").addEventListener("click", () => {
