@@ -1,0 +1,24 @@
+// --- Importaciones ---
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+import { getAuth, connectAuthEmulator } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+// --- Configuración ---
+const firebaseConfig = {
+  apiKey: "AIzaSyAOQEKEfqjdqhEpeUJhXTlV1xsAhlWLnuk",
+  authDomain: "aulahub-1f738.firebaseapp.com",
+  databaseURL: "https://aulahub-1f738-default-rtdb.firebaseio.com",
+  projectId: "aulahub-1f738",
+  storageBucket: "aulahub-1f738.firebasestorage.app",
+  messagingSenderId: "789863629023",
+  appId: "1:789863629023:web:1a680bea2d7a0082f4696a",
+  measurementId: "G-F6MN9Y3SHY"
+};
+
+// --- Inicialización ---
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
+connectAuthEmulator(auth, "http://127.0.0.1:9099"); // usa 127.0.0.1 mejor que localhost
+
+// --- Exportaciones ---
+export { auth};
