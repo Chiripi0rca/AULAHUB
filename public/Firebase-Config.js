@@ -1,7 +1,7 @@
 // --- Importaciones ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
-import { getAuth, connectAuthEmulator } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { getAuth} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 // --- Configuración ---
 const firebaseConfig = {
   apiKey: "AIzaSyAOQEKEfqjdqhEpeUJhXTlV1xsAhlWLnuk",
@@ -18,7 +18,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
-connectAuthEmulator(auth, "http://127.0.0.1:9099"); // usa 127.0.0.1 mejor que localhost
+
 
 // --- Exportaciones ---
-export { auth};
+export {auth};
