@@ -20,4 +20,16 @@ document.getElementById("login").addEventListener("click", () => {
     });
 });
 
-  
+// Cerrar sesión
+document.addEventListener("DOMContentLoaded", () => { 
+
+document.getElementById("logout").addEventListener("click", () => {
+  signOut(auth).then(() => {
+    alert("Sesión cerrada");
+    window.location.reload(); // Recargar la página para aplicar cambios
+  }).catch((error) => {
+    alert("Error al cerrar sesión: " + error.message);
+  });
+});
+
+});
