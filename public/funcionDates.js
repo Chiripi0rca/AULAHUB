@@ -1,18 +1,55 @@
-var subMenu = document.querySelector('.submenu');
-var openSubMenu = document.querySelector('.abrirmenu');
+                /* Funcion de la lista */
 
-openSubMenu.addEventListener('click', function() {
-    subMenu.classList.toggle('show');
-})
+        var subMenu = document.querySelector('.submenu');
+        var openSubMenu = document.querySelector('.abrirmenu');
 
-document.addEventListener('click', function(e) {
-    if(subMenu.classList.contains('show') && !subMenu.contains(e.target)
-    && !openSubMenu.contains(e.target)){
+        openSubMenu.addEventListener('click', function() {
+            subMenu.classList.toggle('show');
+        })
 
-        subMenu.classList.remove('show');
-    }
-})
+        document.addEventListener('click', function(e) {
+            if(subMenu.classList.contains('show') && !subMenu.contains(e.target)
+            && !openSubMenu.contains(e.target)){
 
+                subMenu.classList.remove('show');
+            }
+        })
+
+                /* Funcion de las notificaciones */
+
+        const btn = document.querySelector('.notificacion')
+        const toasts = document.querySelector('.toasts')
+
+        btn.addEventListener('click', showToast);
+
+        function showToast(){
+            const notificaciones = document.createElement('div');
+
+            notificaciones.classList.add('toast');
+            notificaciones.innerText = 'Vacio';
+
+            toasts.appendChild(notificaciones);
+
+            setTimeout( () => notificaciones.remove(), 3000);
+        }
+        
+                /* Funcion de la usuario */
+
+        var menuUsuario = document.querySelector('.subusuario');
+        var abrirUsuario = document.querySelector('.usuario');
+
+        abrirUsuario.addEventListener('click', function() {
+            menuUsuario.classList.toggle('show');
+        })
+
+        document.addEventListener('click', function(e) {
+            if(menuUsuario.classList.contains('show') && !menuUsuario.contains(e.target)
+            && !abrirUsuario.contains(e.target)){
+
+                menuUsuario.classList.remove('show');
+            }
+        })
+                /* Funcion del calendario*/
         const currentDate = new Date();
         let currentMonth = currentDate.getMonth();
         let currentYear = currentDate.getFullYear();

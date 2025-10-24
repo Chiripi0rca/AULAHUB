@@ -5,35 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendario de Reservas</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+
+    <!-- estilos de google -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap">
     <link rel="stylesheet" href="datestyles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+     <!-- encabezado -->
     <header class="header">
         <nav>
             <ul>
                 <li class="abrirmenu">
-                    <a href="#">Menu
-                        <i class="fa-solid fa-chevron-down"></i>
+                    <a href="#">
+                        <span class="material-symbols-outlined">menu_open</span>
                     </a>
                     <div class="submenu">
                         <ul>
                             <li><a href="#">Configuraciones</a></li>
-                            <li><a href="#">Ayuda</a></li>
                             <li><a href="#">Mis reservas</a></li>
-                            <li><button id="logout">Cerrar sesión</button></li>
+                            <li><a href="#">Ayuda</a></li>
+                            <li><a href="#" id="logout">Cerrar sesion</a></li>
                         </ul>
                     </div>
                 </li>
             </ul>
         </nav>
-        <div class="bell-icon">
-            <img src="img/campana.png">
-        </div>
-        <div class="profile">
-            <img src="img/usuario.png">
-        </div>
+        <nav>
+            <ul>
+                <div class="notificacion">
+                    <span class="material-symbols-outlined">notifications</span>
+                </div>
+            </ul>
+        </nav>
+        <nav>
+            <ul>
+                <li class="usuario">
+                    <a href="#">
+                        <span class="material-symbols-outlined">identity_platform</span>
+                    </a>
+                    <div class="subusuario">
+                        <ul>
+                            <li><div id="userinfo"></div></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
     </header>
+    <!-- Alerta -->
+    <div class="toasts"></div>
+
+    <!-- textBox -->
     <div class="asignaraula">
         <label for="aulas">Aula</label>
         <select name="aulas" id="aulas">
@@ -49,6 +71,8 @@
             <option value="turno2">Despertino</option>
         </select>
     </div>
+
+     <!-- calendario -->
     <h3 id="selectedDates">Fechas seleccionadas:</h3>
 
     <div class="calendar">
@@ -61,6 +85,9 @@
         <div id="calendarBody" class="calendar-body"></div>
     </div>
     <script type="module" src="funcionDates.js"></script>
+    <script type="module" src="./Firebase-Config.js"></script>
+    <script type="module" src="./Usario.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
 </body>
 </html>
 

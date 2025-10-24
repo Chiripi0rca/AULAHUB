@@ -1,4 +1,4 @@
-/* Diseno de calendario en hader */
+/* Diseño del hader */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
     body{
@@ -14,12 +14,12 @@
       font-weight: 500;
       padding: 10px 20px;
       border-radius: 10px;
-      color: rgb(0, 4, 255);
+      color: rgb(0, 0, 0);
       transition: all 0.3s ease;
     }
 
     a:hover{
-      background-color: rgba(50, 140, 114, 0.517);
+      background-color: rgba(34, 161, 190, 0.517);
     }
 
     header{
@@ -29,7 +29,7 @@
       min-height: 80px;
       justify-content:space-between;
       align-items:center;
-      padding:12px 20px;
+      padding: 0px 12px;
       background:#fff; 
       border-bottom:1px solid #ddd;
       box-shadow:0 2px 6px rgba(0,0,0,0.05);
@@ -53,7 +53,7 @@
       box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
       max-height: 0;
-      transition: max-height 0.5s ease;
+      transition: max-height 0.3s ease;
       overflow: hidden;
     }
 
@@ -78,10 +78,94 @@
       width: 100%;
     }
 
-    .bell-icon,.profile{
-        font-size:22px;
-        cursor:pointer; 
+    .notificacion{
+      background-color: #ffffff;
+      color: #000000;
+      font-weight: bold;
+      padding: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
+
+    .bell-icon:hover{
+      background-color: #68636359;
+    }
+
+    .toasts{
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .toast{
+      background-color: #f5f5f5;
+      color: #000000;
+      border-radius: 5px;
+      padding: 1rem 2rem;
+      margin: 5px;
+      font-size: 1rem;
+    }
+
+    .usuario{
+      display: inline-block;
+      position: relative;
+      text-decoration: none;
+      color: black;
+      font-weight: 500;
+      padding: 10px 50px;
+      border-radius: 10px;
+      color: rgb(0, 0, 0);
+      transition: all 0.3s ease;
+    }
+
+     .subusuario{
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: white;
+      box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      min-width: 220px;
+      max-width: 90vw;
+      z-index: 1000;
+      max-height: 0;
+      transition: max-height 0.3s ease;
+      overflow: hidden;
+    }
+
+    .subusuario.show {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .subusuario ul{
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 10px;
+    }
+
+    .subusuario ul li{
+      position: relative;
+      display: block;
+      width: 100%;
+    }
+
+    /* medida de los iconos */
+    .material-symbols-outlined {
+      font-size: 2em;
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 300,
+      'GRAD' 0,
+      'opsz' 24
+      }
+
+    /* text-box */
 
     .asignaraula{
     text-align:center;
@@ -118,7 +202,9 @@
     color:#000000;          
     margin-bottom:6px;
     }
-/* Diseno del calendario */
+
+    /* Diseno del calendario */
+
     .asignaraula select{
     font-size:14px;
     font-weight:500;
