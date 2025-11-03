@@ -1,7 +1,9 @@
 // --- Importaciones ---
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
-import { getAuth} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js"; // Importamos Firestore
+
 // --- Configuración ---
 const firebaseConfig = {
   apiKey: "AIzaSyAOQEKEfqjdqhEpeUJhXTlV1xsAhlWLnuk",
@@ -16,9 +18,10 @@ const firebaseConfig = {
 
 // --- Inicialización ---
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
-
+const analytics = getAnalytics(app);  // Opcional, si necesitas Google Analytics
+const auth = getAuth(app);  // Inicializamos la autenticación
+const db = getFirestore(app);  // Inicializamos Firestore
 
 // --- Exportaciones ---
-export {auth};
+export { auth, db }; // Exportamos 'auth' y 'db' para usarlos en otros archivos
+

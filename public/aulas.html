@@ -4,59 +4,62 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reservar Aula - FIC</title>
-     <!-- estilos de google -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap">
-    <link rel="stylesheet" href="laboratorioStyles.css">
+  <!-- Estilos de Google -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap">
+  <link rel="stylesheet" href="laboratorioStyles.css">
 </head>
 <body>
 
   <header class="header">
-        <nav>
+    <nav>
+      <ul>
+        <!-- Menú de la hamburguesa -->
+        <li class="abrirmenu">
+          <a href="javascript:void(0);" onclick="toggleMenu()">
+            <span class="material-symbols-outlined">menu_open</span>
+          </a>
+          <div class="submenu" id="submenu"> <!-- Empezamos con el submenu oculto -->
             <ul>
-                <li class="abrirmenu">
-                    <a href="#">
-                        <span class="material-symbols-outlined">menu_open</span>
-                    </a>
-                    <div class="submenu">
-                        <ul>
-                            <li><a href="#">Configuraciones</a></li>
-                            <li><a href="#">Mis reservas</a></li>
-                            <li><a href="#">Ayuda</a></li>
-                            <li><a href="#" id="logout">Cerrar sesion</a></li>
-                        </ul>
-                    </div>
-                </li>
+              <li><a href="#">Configuraciones</a></li>
+              <li><a href="#">Mis reservas</a></li>
+              <li><a href="#">Ayuda</a></li>
+              <li><a href="#" id="logout">Cerrar sesión</a></li>
             </ul>
-        </nav>
-        <nav>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <nav>
+      <ul>
+        <div class="notificacion">
+          <span class="material-symbols-outlined">notifications</span>
+        </div>
+      </ul>
+    </nav>
+    <nav>
+      <ul>
+        <li class="usuario">
+          <a href="#">
+            <span class="material-symbols-outlined">identity_platform</span>
+          </a>
+          <div class="subusuario">
             <ul>
-                <div class="notificacion">
-                    <span class="material-symbols-outlined">notifications</span>
-                </div>
+              <li><div id="userinfo"></div></li>
             </ul>
-        </nav>
-        <nav>
-            <ul>
-                <li class="usuario">
-                    <a href="#">
-                        <span class="material-symbols-outlined">identity_platform</span>
-                    </a>
-                    <div class="subusuario">
-                        <ul>
-                            <li><div id="userinfo"></div></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-    </header>
-    <!-- Alerta -->
-    <div class="toasts"></div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Alerta -->
+  <div class="toasts"></div>
 
   <div class="content">
     <h2>Selecciona el aula a reservar</h2>
 
-    <div class="card" onclick="location.href='reserva.html?aula=labA'">
+    <!-- Carteles de las aulas, inicialmente invisibles -->
+    <div class="card" data-aula="labA" style="visibility: hidden;" onclick="location.href='reserva.html?aula=labA'">
       <div class="icon">💻</div>
       <div class="card-text">
         <strong>Laboratorio de Cómputo A</strong>
@@ -64,7 +67,7 @@
       </div>
     </div>
 
-    <div class="card" onclick="location.href='reserva.html?aula=labB'">
+    <div class="card" data-aula="labB" style="visibility: hidden;" onclick="location.href='reserva.html?aula=labB'">
       <div class="icon">💻</div>
       <div class="card-text">
         <strong>Laboratorio de Cómputo B</strong>
@@ -72,7 +75,7 @@
       </div>
     </div>
 
-    <div class="card" onclick="location.href='reserva.html?aula=centro'">
+    <div class="card" data-aula="centro" style="visibility: hidden;" onclick="location.href='reserva.html?aula=centro'">
       <div class="icon">💻</div>
       <div class="card-text">
         <strong>Centro de Cómputo</strong>
@@ -80,7 +83,7 @@
       </div>
     </div>
 
-    <div class="card" onclick="location.href='reserva.html?aula=auditorio'">
+    <div class="card" data-aula="auditorio" style="visibility: hidden;" onclick="location.href='reserva.html?aula=auditorio'">
       <div class="icon">🎤</div>
       <div class="card-text">
         <strong>Auditorio</strong>
@@ -92,8 +95,27 @@
   <footer>
     Facultad de Informática Culiacán - 2025
   </footer>
-  <script src="./laboratorio.js"></script>
+
   <script type="module" src="./Firebase-Config.js"></script>
-    <script type="module" src="./Usario.js"></script>
+  <script type="module" src="./usuarios.js"></script>
+
+  <!-- Función para mostrar/ocultar el submenu -->
+  <script>
+    // Función para mostrar/ocultar el submenu
+    function toggleMenu() {
+      const submenu = document.getElementById('submenu');
+      // Debug: Comprobar si la función está siendo llamada
+      console.log("toggleMenu() llamada");
+
+      if (submenu.style.display === 'block') {
+        submenu.style.display = 'none'; // Ocultar submenu
+        console.log("Submenu oculto");
+      } else {
+        submenu.style.display = 'block'; // Mostrar submenu
+        console.log("Submenu mostrado");
+      }
+    }
+  </script>
+
 </body>
 </html>
