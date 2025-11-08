@@ -1,6 +1,6 @@
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
-import { auth, db } from "./Firebase-Config.js"; // Importamos 'auth' y 'db' de Firebase-Config.js
+import { auth, db } from "./Firebase-Config.js";
 
 // --- Inicio de sesión ---
 document.addEventListener("DOMContentLoaded", () => { 
