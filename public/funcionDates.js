@@ -26,7 +26,7 @@
             const notificaciones = document.createElement('div');
 
             notificaciones.classList.add('toast');
-            notificaciones.innerText = 'Vacio';
+            notificaciones.innerText = 'No hay respuesta';
 
             toasts.appendChild(notificaciones);
 

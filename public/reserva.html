@@ -56,10 +56,16 @@
     <!-- Alerta -->
     <div class="toasts"></div>
 
+    <!-- Foto -->
+    <div class="ImgFoto">
+        <img src="https://img.freepik.com/foto-gratis/vacant-modern-workspace-with-computers_482257-127194.jpg?semt=ais_hybrid&w=740&q=80" alt="aula">
+    </div>
     <!-- textBox -->
+    <div class="alinear">
     <div class="asignaraula">
         <label for="aulas">Aula</label>
         <select name="aulas" id="aulas">
+            <option value="option1">Ninguno</option>
             <option value="option1">Salon 1</option>
             <option value="opcion2">Salon 2</option>
             <option value="opcion3">Salon 3</option>
@@ -68,9 +74,11 @@
     <div class="horario">
         <label for="turno">Horario</label>
         <select name="turno" id="turno">
+            <option value="option1">Ninguno</option>
             <option value="turno1">Matutino</option>
             <option value="turno2">Vespertino</option>
         </select>
+    </div>
     </div>
 
      <!-- calendario -->
@@ -84,6 +92,12 @@
         </div>
         <div class="calendar-days"></div>
         <div id="calendarBody" class="calendar-body"></div>
+    </div>
+
+    <!-- Boton para reservar -->
+
+    <div class="aceptar">
+        <button type="button" id="reservo"> Reservar </button>
     </div>
     <script type="module" src="funcionDates.js"></script>
     <script type="module" src="./Firebase-Config.js"></script>
