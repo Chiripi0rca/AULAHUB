@@ -129,6 +129,16 @@ header {
   transition: all 0.3s ease;
 }
 
+  /* Avatar del usuario en el header */
+    .usuario img#preview {
+      width: 50px;        /* tamaño del avatar */
+      height: 50px;
+      border-radius: 50%; /* círculo */
+      object-fit: cover;  /* recorta la imagen para que llene el círculo */
+      border: 3px solid #000000;
+      display: block;
+    }
+
 .subusuario {
   position: absolute;
   top: 100%;
@@ -142,6 +152,16 @@ header {
   max-height: 0;
   transition: max-height 0.3s ease;
   overflow: hidden;
+}
+
+.subusuario button{
+  border: none;
+  font-family: 'Poppins', system-ui, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #000000;
+  background: none;
 }
 
 .subusuario.show {
