@@ -1,199 +1,7 @@
-/* Diseño del hader */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+/* datestyles.css - Solo estilos específicos de Reserva y Calendario */
 
-    body{
-      margin: 0;
-      background:#f5f5f5;
-      font-family: Arial, sans-serif;
-    }
-
-    a{
-      display: inline-block;
-      position: relative;
-      text-decoration: none;
-      color: black;
-      font-weight: 500;
-      padding: 10px 20px;
-      border-radius: 10px;
-      color: rgb(0, 0, 0);
-      transition: all 0.3s ease;
-    }
-
-    a:hover{
-      background-color: rgba(34, 161, 190, 0.517);
-    }
-
-    header{
-      display:flex;
-      position: relative;
-      width: 100%;
-      min-height: 80px;
-      justify-content:space-between;
-      align-items:center;
-      padding: 0px 12px;
-      background:#164B8A; 
-      border-bottom:1px solid #ddd;
-      box-shadow:0 2px 6px rgba(0,0,0,0.05);
-    }
-
-    .header nav ul{
-      display: flex;
-      gap: 10px;
-      list-style: none;
-    }
-    
-    .header nav a i{
-      font-size: 14px;
-      margin-left: 6px;
-    }
-
-    .submenu{
-      position: absolute;
-      top: 100%;
-      background-color: white;
-      box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      max-height: 0;
-      transition: max-height 0.3s ease;
-      overflow: hidden;
-    }
-
-    .submenu.show {
-      max-height: 300px;
-    }
-
-    .submenu ul{
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      padding: 10px;
-    }
-
-    .submenu ul li{
-      position: relative;
-      display: block;
-      width: 100%;
-    }
-
-    .submenu ul li a{
-      width: 100%;
-    }
-
-    .notificacion{
-      background-color: #164B8A;
-      color: #000000;
-      font-weight: bold;
-      padding: 1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .bell-icon:hover{
-      background-color: #68636359;
-    }
-
-    .toasts{
-      position: fixed;
-      bottom: 1rem;
-      right: 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-    }
-
-    .toast{
-      background-color: rgba(255, 255, 255, 0.561);
-      color: #000000;
-      border-radius: 5px;
-      font-weight: 600;
-      padding: 1rem 2rem;
-      margin: 5px;
-      font-size: 1rem;
-    }
-
-    .usuario{
-      display: inline-block;
-      position: relative;
-      text-decoration: none;
-      color: black;
-      font-weight: 500;
-      padding: 10px 50px;
-      border-radius: 10px;
-      color: rgb(0, 0, 0);
-      transition: all 0.3s ease;
-    }
-
-      /* Avatar del usuario en el header */
-    .usuario img#preview {
-      width: 50px;        /* tamaño del avatar */
-      height: 50px;
-      border-radius: 50%; /* círculo */
-      object-fit: cover;  /* recorta la imagen para que llene el círculo */
-      border: 3px solid #000000;
-      display: block;
-    }
-
-     .subusuario{
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background-color: white;
-      box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      min-width: 220px;
-      max-width: 90vw;
-      z-index: 1000;
-      max-height: 0;
-      transition: max-height 0.3s ease;
-      overflow: hidden;
-    }
-
-    .subusuario button{
-      border: none;
-      font-family: 'Poppins', system-ui, Arial, sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      color: #000000;
-      background: none;
-    }
-
-    .subusuario li:hover{
-      background-color: rgba(34, 161, 190, 0.517);
-    }
-
-    .subusuario.show {
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    .subusuario ul{
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      padding: 10px;
-    }
-
-    .subusuario ul li{
-      position: relative;
-      display: block;
-      width: 100%;
-    }
-
-    /* medida de los iconos */
-    .material-symbols-outlined {
-      font-size: 2em;
-      font-variation-settings:
-      'FILL' 0,
-      'wght' 300,
-      'GRAD' 0,
-      'opsz' 24
-      }
-
-
-    /* Foto del aula */
-  .ImgFoto img {
+/* --- Foto del aula --- */
+.ImgFoto img {
   display: block;
   margin: 30px auto 20px;
   width: 95%;
@@ -204,7 +12,7 @@
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-    /* Text-boxes */
+/* --- Selectores (Aula y Horario) --- */
 .alinear {
   display: flex;
   gap: 20px;
@@ -222,7 +30,6 @@
   min-width: 220px;
   max-width: 260px;
   text-align: left;
-  font-family: 'Poppins', system-ui, Arial, sans-serif;
   color: #111827;
   box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
   border: 1px solid rgba(148, 163, 184, 0.5);
@@ -258,136 +65,132 @@
   -moz-appearance: none;
 }
 
-    /* Diseno del calendario */
+/* --- Calendario --- */
+#selectedDates {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 600;
+}
 
-    .asignaraula select{
-    font-size:14px;
-    font-weight:500;
-    line-height:1.25;
-    color:#111827;
-    }
+.calendar {
+  width: 350px;
+  background: #fff;
+  margin: 16px auto;
+  border-radius: 8px;
+  box-shadow: 0 10px 29px -7px rgba(63,63,63,0.48);
+  overflow: hidden;
+}
 
-    .horario select{
-    font-size:14px;
-    font-weight:500;
-    line-height:1.25;
-    color:#111827;
-    }
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 8px;
+}
 
-    .calendar{
-      width:350px;
-      background:#fff;
-      margin:16px auto;
-      border-radius:8px;
-      box-shadow:0 10px 29px -7px rgba(63,63,63,0.48);
-      overflow:hidden;
-    }
+.calendar-header button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    .calendar-header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:10px 8px;
-    }
-    .calendar-header button{
-      background:transparent;
-      border:none;
-      cursor:pointer;
-      font-size:18px;
-      width:40px;
-      height:40px;
-      border-radius:50%;
-    }
-    #prevBtn:hover,#nextBtn:hover{
-        background:#ddd !important;
-        transition: background-color .2s; 
-    }
+#prevBtn:hover, #nextBtn:hover {
+    background: #ddd !important;
+    transition: background-color .2s; 
+}
 
-    #currentMonth{
-      font-family:'Poppins', system-ui;
-      font-size:18px;
-      text-transform:capitalize;
-    }
+#currentMonth {
+  font-size: 18px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
 
-    .calendar-days{
-      display:grid;
-      grid-template-columns:repeat(7,1fr);
-      gap:0;
-      padding:6px 8px 0 8px;
-      font-family:'Poppins', system-ui;
-      font-size:12px;
-      color:#6b7280;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-    }
-    .calendar-weekday{
-      text-align:center;
-      padding:8px 0;
-      font-weight:600;
-      user-select:none;
-    }
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  padding: 6px 8px 0 8px;
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
 
-    .calendar-body{
-      display:grid;
-      grid-template-columns:repeat(7,1fr);
-      padding:8px;
-    }
+.calendar-weekday {
+  text-align: center;
+  padding: 8px 0;
+  font-weight: 600;
+  user-select: none;
+}
 
-    .calendar-day{
-      border:1px solid #fff;
-      border-radius:50%;
-      padding:10px;
-      margin:5px;
-      text-align:center;
-      cursor:pointer;
-    }
-    .calendar-day.empty{
-        cursor:default;
-        visibility:hidden; 
-    }
+.calendar-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 8px;
+}
 
-    .calendar-day:hover{
-        background-color:#ddd !important;
-        transition:background-color .2s; 
-    }
-    .calendar-day.selected{
-        border:1px solid #003879d0;
-        background-color:rgba(70,201,240);
-    }
-    .calendar-day.range{
-        border:1px solid #007900d0;
-        background-color:rgba(86,238,86);
-    }
+.calendar-day {
+  border: 1px solid #fff;
+  border-radius: 50%;
+  padding: 10px;
+  margin: 2px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+}
 
-    #selectedDates{
-        font-family:'Poppins', system-ui;
-        text-align:center; 
-    }
+.calendar-day.empty {
+    cursor: default;
+    visibility: hidden; 
+}
 
-    /* Boton */
-    
-.aceptar button{
+.calendar-day:hover:not(.empty) {
+    background-color: #ddd !important;
+    transition: background-color .2s; 
+}
+
+.calendar-day.selected {
+    border: 1px solid #003879d0;
+    background-color: rgba(70, 201, 240);
+    color: #000;
+}
+
+.calendar-day.range {
+    border: 1px solid #007900d0;
+    background-color: rgba(86, 238, 86);
+    color: #000;
+}
+
+/* --- Botón Reservar --- */
+.aceptar button {
   display: flex;
   justify-content: center;
   margin: 24px auto 40px;
   padding: 12px 32px;
   border-radius: 200px;
   border: none;
-  font-family: 'Poppins', system-ui, Arial, sans-serif;
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
   color: #ffffff;
   background: linear-gradient(135deg, #2563eb, #0ea5e9);
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-#reservo:active {
+.aceptar button:active {
   transform: translateY(1px) scale(0.98);
   box-shadow: 0 6px 16px rgba(15, 23, 42, 0.35);
 }
 
-#reservo:disabled {
+.aceptar button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
   box-shadow: none;
