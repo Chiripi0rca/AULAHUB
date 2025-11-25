@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap');
+
+/* --- 1. RESET Y BASE --- */
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased; /* Texto más nítido en Mac/iOS */
+}
+
+body {
+  margin: 0;
+  background-color: #f8f9fa; /* Un gris muy suave, mejor que el blanco puro */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+/* --- 2. HEADER PROFESIONAL --- */
+header {
+  display: flex;
+  width: 100%;
+  height: 70px; /* Altura fija para consistencia */
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  background: #164B8A;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Sombra suave estilo Tailwind */
+  position: relative;
+  z-index: 1000;
+}
+
+/* Iconos de navegación */
+.header nav ul {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Botones del Header (Iconos) */
+.material-symbols-outlined {
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.9);
+  transition: transform 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+}
+
+.abrirmenu a, .notificacion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Círculo perfecto */
+  transition: background-color 0.2s ease;
+}
+
+.abrirmenu a:hover, .notificacion:hover {
+  background-color: rgba(255, 255, 255, 0.15); /* Efecto hover sutil */
+}
+
+/* --- 3. MENÚS DESPLEGABLES (Dropdowns) --- */
+/* Base compartida para ambos menús */
+.submenu, .subusuario {
+  position: absolute;
+  top: 75px; /* Justo debajo del header con un pequeño margen */
+  background-color: #ffffff;
+  border-radius: 12px; /* Bordes más redondeados */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0,0,0,0.05); /* Borde casi invisible para definición */
+  min-width: 240px;
+  z-index: 2000;
+  overflow: hidden;
+
+  /* Animación "Snappy" (Rápida y profesional) */
+  opacity: 0;
+  transform: translateY(-10px) scale(0.98);
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+}
+
+/* Estado visible */
+.submenu.show, .subusuario.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+}
+
+/* Posición específica */
+.submenu { left: 20px; }
+.subusuario { right: 20px; }
+
+/* --- CONTENIDO DE LAS LISTAS --- */
+.submenu ul, .subusuario ul {
+  display: flex;
+  flex-direction: column;
+  padding: 8px; /* Padding interno del menú */
+  margin: 0;
+  gap: 4px; /* Espacio entre opciones */
+}
+
+/* Enlaces y Botones dentro del menú */
+.submenu ul li a, 
+.subusuario button,
+.subusuario li div {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563; /* Gris oscuro profesional */
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* Hover effects */
+.submenu ul li a:hover, 
+.subusuario button:hover {
+  background-color: #f3f4f6; /* Gris muy claro */
+  color: #111827; /* Negro casi puro */
+}
+
+/* --- ESTILOS ESPECÍFICOS DEL PERFIL --- */
+
+/* 1. Información del usuario (Texto estático) */
+#userinfo {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #9ca3af; /* Gris claro */
+  font-weight: 600;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 5px;
+  cursor: default;
+}
+
+/* 2. Botón Subir Foto (Acción Principal) */
+#btnSubirFoto {
+  color: #164B8A; /* Azul corporativo */
+}
+#btnSubirFoto:hover {
+  background-color: rgba(22, 75, 138, 0.08);
+}
+
+/* 3. Botón Borrar Foto (Acción Destructiva) */
+#btnBorrarFoto {
+  color: #ef4444; /* Rojo alerta */
+}
+#btnBorrarFoto:hover {
+  background-color: #fef2f2; /* Fondo rojo muy suave */
+}
+
+/* 4. Cerrar Sesión (En el otro menú) */
+#logout {
+  color: #ef4444;
+  border-top: 1px solid #eee;
+  margin-top: 4px;
+  padding-top: 12px;
+}
+#logout:hover {
+  background-color: #fef2f2;
+}
+
+/* Avatar en el Header */
+.usuario img#preview {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  transition: box-shadow 0.2s ease;
+  display: block;
+}
+
+.usuario:hover img#preview {
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+}
+
+/* --- 4. TOASTS (Notificaciones) --- */
+.toasts {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 3000;
+}
+
+.toast {
+  background-color: #fff;
+  color: #333;
+  border-left: 4px solid #164B8A;
+  border-radius: 6px;
+  padding: 16px 20px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  font-weight: 500;
+  animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* --- 5. FOOTER --- */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 13px;
+  color: #fff;
+  background: linear-gradient(to right, #C0993A, #d4af37); /* Dorado degradado */
+  margin-top: auto;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}

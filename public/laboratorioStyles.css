@@ -1,312 +1,126 @@
-/* Estilos generales para todo */
-* {
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
+/* laboratorioStyles.css */
 
-body {
-  margin: 0;
-  background-color: #f5f5f5;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-a {
-  display: inline-block;
-  position: relative;
-  text-decoration: none;
-  color: black;
-  font-weight: 500;
-  padding: 10px 20px;
-  border-radius: 10px;
-  color: rgb(0, 0, 0);
-  transition: all 0.3s ease;
-}
-
-a:hover {
-  background-color: rgba(34, 161, 190, 0.517);
-}
-
-header {
-  display: flex;
-  position: relative;
-  width: 100%;
-  min-height: 80px;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 12px;
-  background: #164B8A;
-  border-bottom: 1px solid #ddd;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-.header nav ul {
-  display: flex;
-  gap: 10px;
-  list-style: none;
-}
-
-.header nav a i {
-  font-size: 14px;
-  margin-left: 6px;
-}
-
-.submenu {
-  position: absolute;
-  top: 100%;
-  background-color: white;
-  box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  max-height: 0;
-  transition: max-height 0.3s ease;
-  overflow: hidden;
-}
-
-.submenu.show {
-  max-height: 300px;
-}
-
-.submenu ul {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  padding: 10px;
-}
-
-.submenu ul li {
-  position: relative;
-  display: block;
-  width: 100%;
-}
-
-.submenu ul li a {
-  width: 100%;
-}
-
-.notificacion {
-  background-color: #164B8A;
-  color: #000000;
-  font-weight: bold;
-  padding: 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.bell-icon:hover {
-  background-color: #68636359;
-}
-
-.toasts {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.toast{
-      background-color: rgba(255, 255, 255, 0.561);
-      color: #000000;
-      border-radius: 5px;
-      font-weight: 600;
-      padding: 1rem 2rem;
-      margin: 5px;
-      font-size: 1rem;
-    }
-
-.usuario {
-  display: inline-block;
-  position: relative;
-  text-decoration: none;
-  color: black;
-  font-weight: 500;
-  padding: 10px 50px;
-  border-radius: 10px;
-  color: rgb(0, 0, 0);
-  transition: all 0.3s ease;
-}
-
-  /* Avatar del usuario en el header */
-    .usuario img#preview {
-      width: 50px;        /* tamaño del avatar */
-      height: 50px;
-      border-radius: 50%; /* círculo */
-      object-fit: cover;  /* recorta la imagen para que llene el círculo */
-      border: 3px solid #000000;
-      display: block;
-    }
-
-.subusuario {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: white;
-  box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  min-width: 220px;
-  max-width: 90vw;
-  z-index: 1000;
-  max-height: 0;
-  transition: max-height 0.3s ease;
-  overflow: hidden;
-}
-
-.subusuario button{
-  border: none;
-  font-family: 'Poppins', system-ui, Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  color: #000000;
-  background: none;
-}
-
-.subusuario.show {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.subusuario ul {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  padding: 10px;
-}
-
-.subusuario ul li {
-  position: relative;
-  display: block;
-  width: 100%;
-}
-
-.material-symbols-outlined {
-  font-size: 2em;
-  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-}
-
+/* --- Layout Principal --- */
 .content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
+  padding: 40px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .content h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #111;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
   margin-bottom: 30px;
   text-align: center;
 }
 
-/* Estilos comunes para las cards */
-.card {
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 15px;
-  padding: 15px 20px;
-  margin: 10px 0;
-  width: 100%;
-  max-width: 400px;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: transform 30s ease, box-shadow 30s ease;
+/* =========================================
+   ESTILOS PARA AYUDA (El diseño Grid Grid Moderno)
+   ========================================= */
+.help-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 24px;
+    width: 100%;
 }
 
-.help-table .card {
-  width: 100%;
-  max-width: 400px;
-  min-height: 100px;
-  padding: 20px 50px;
-  box-sizing: border-box;
-  
-  transition: 
-    transform 1s ease,
-    box-shadow 1s ease,
-    background-color 1s ease;
+.help-card {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    cursor: default;
 }
 
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  background-color: #fafafa;
+.help-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
+    border-color: rgba(22, 75, 138, 0.2);
 }
 
-.icon {
-  font-size: 40px;
-  margin-right: 18px;
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
 }
 
-.card-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.card-header h3 { margin: 0; font-size: 18px; font-weight: 600; color: #1f2937; }
+
+.card-header .material-symbols-outlined {
+    font-size: 28px;
+    padding: 10px;
+    border-radius: 12px;
+    background-color: #f3f4f6;
+    color: #4b5563;
 }
 
-.card-text strong {
-  font-size: 16px;
-  color: #111;
-}
+/* Colores de Ayuda */
+.icon-blue { color: #2563eb !important; background-color: #eff6ff !important; }
+.icon-orange { color: #f59e0b !important; background-color: #fffbeb !important; }
+.icon-purple { color: #9333ea !important; background-color: #f3e8ff !important; }
+.icon-red { color: #dc2626 !important; background-color: #fef2f2 !important; }
+.icon-green { color: #16a34a !important; background-color: #f0fdf4 !important; }
+.icon-yellow { color: #ca8a04 !important; background-color: #fefce8 !important; }
+.icon-teal { color: #0d9488 !important; background-color: #f0fdfa !important; }
+.icon-dark { color: #111827 !important; background-color: #f9fafb !important; }
 
-.card-text span {
-  font-size: 14px;
-  color: #666;
-}
-
-/* Estilos para las cards con contenido adicional al pasar el cursor */
-.card {
-  display: flex;
-  flex-direction: column; /* Esto hace que los elementos dentro de la card se apilen verticalmente */
-  align-items: flex-start; /* Alinea el contenido de la card a la izquierda (puedes cambiarlo según lo que necesites) */
-}
-
-.card .content {
-  display: none;
-  padding-left: 20px;
-}
-
-.card:hover .content {
-  display: block;
-}
+.card-body { color: #4b5563; font-size: 14px; line-height: 1.6; }
+.card-body ul { padding-left: 20px; margin: 0; }
+.card-body li { margin-bottom: 6px; }
 
 
-/* Estilo para card de selección */
-.card.selection-card {
-  background-color: #f9f9f9;
-  border: 1px solid #ccc;
+/* =========================================
+   ESTILOS PARA AULAS (El diseño Clásico Original)
+   ========================================= */
+.aula-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrado al medio */
+    width: 100%;
 }
 
-.card.selection-card:hover {
-  background-color: #e0e0e0;
+.aula-card-classic {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 15px 20px;
+    margin: 10px 0;
+    width: 100%;
+    max-width: 400px; /* Ancho limitado, estilo "lista" */
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none; /* Sin borde para el estilo clásico */
 }
 
-/* Estilos adicionales para la estructura de navegación */
-nav {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.aula-card-classic:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: #fafafa;
 }
 
-ul {
-  margin: 5px 0;
-  list-style-type: none;
+/* Estilo para los Emojis grandes */
+.aula-emoji {
+    font-size: 40px;
+    margin-right: 18px;
+    line-height: 1;
 }
-footer {
-  text-align: center;
-  padding: 15px 0;
-  font-size: 13px;
-  color: #777;
-  background-color: #C0993A;
-  border-top: 1px solid #ddd;
-  margin-top: auto;
+
+.aula-text {
+    display: flex;
+    flex-direction: column;
 }
-body > .content {
-    flex: 1;
-}
+
+.aula-text strong { font-size: 16px; color: #111; margin-bottom: 2px;}
+.aula-text span { font-size: 14px; color: #666; }
