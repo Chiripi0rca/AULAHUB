@@ -1,6 +1,5 @@
 /* laboratorioStyles.css */
 
-/* --- Layout Principal --- */
 .content {
   flex: 1;
   display: flex;
@@ -19,9 +18,7 @@
   text-align: center;
 }
 
-/* =========================================
-   ESTILOS PARA AYUDA (El diseño Grid Grid Moderno)
-   ========================================= */
+/* --- ESTILOS AYUDA (GRID) --- */
 .help-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
@@ -64,7 +61,7 @@
     color: #4b5563;
 }
 
-/* Colores de Ayuda */
+/* Colores Ayuda */
 .icon-blue { color: #2563eb !important; background-color: #eff6ff !important; }
 .icon-orange { color: #f59e0b !important; background-color: #fffbeb !important; }
 .icon-purple { color: #9333ea !important; background-color: #f3e8ff !important; }
@@ -78,14 +75,11 @@
 .card-body ul { padding-left: 20px; margin: 0; }
 .card-body li { margin-bottom: 6px; }
 
-
-/* =========================================
-   ESTILOS PARA AULAS (El diseño Clásico Original)
-   ========================================= */
+/* --- ESTILOS AULAS (CLÁSICO LISTA) --- */
 .aula-list {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centrado al medio */
+    align-items: center;
     width: 100%;
 }
 
@@ -97,11 +91,10 @@
     padding: 15px 20px;
     margin: 10px 0;
     width: 100%;
-    max-width: 400px; /* Ancho limitado, estilo "lista" */
+    max-width: 400px;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: none; /* Sin borde para el estilo clásico */
 }
 
 .aula-card-classic:hover {
@@ -110,17 +103,77 @@
     background-color: #fafafa;
 }
 
-/* Estilo para los Emojis grandes */
-.aula-emoji {
-    font-size: 40px;
-    margin-right: 18px;
-    line-height: 1;
+.aula-emoji { font-size: 40px; margin-right: 18px; line-height: 1; }
+.aula-text { display: flex; flex-direction: column; }
+.aula-text strong { font-size: 16px; color: #111; margin-bottom: 2px; }
+.aula-text span { font-size: 14px; color: #666; }
+/* --- ESTILOS DE MIS RESERVAS --- */
+
+/* Ajuste de la tarjeta para reservas */
+.reserva-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-left: 5px solid transparent; /* Borde izquierdo de color */
 }
 
-.aula-text {
+.reserva-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 10px;
+}
+
+.aula-icon-small {
+    width: 40px; height: 40px;
+    background-color: #eff6ff;
+    color: #2563eb;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+}
+.aula-icon-small span { font-size: 20px; }
+
+.reserva-title {
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
+.reserva-title h3 { margin: 0; font-size: 16px; color: #1f2937; }
+.reserva-title span { font-size: 12px; color: #6b7280; }
 
-.aula-text strong { font-size: 16px; color: #111; margin-bottom: 2px;}
-.aula-text span { font-size: 14px; color: #666; }
+.reserva-details p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #4b5563;
+}
+.reserva-details strong { color: #374151; }
+
+/* --- BADGES DE ESTADO (Etiquetas de color) --- */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Pendiente (Amarillo/Naranja) */
+.status-pending {
+    background-color: #fff7ed;
+    color: #c2410c;
+    border: 1px solid #ffedd5;
+}
+/* Aceptada (Verde) */
+.status-success {
+    background-color: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #dcfce7;
+}
+/* Rechazada (Rojo) */
+.status-error {
+    background-color: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fee2e2;
+}
