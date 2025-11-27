@@ -2,11 +2,8 @@
 
 export function cargarHeader() {
     const headerElement = document.querySelector('header');
-    
-    // Si no hay etiqueta <header> en el HTML, no hacemos nada
     if (!headerElement) return;
 
-    // 1. Inyectamos el HTML
     headerElement.innerHTML = `
         <nav>
             <ul>
@@ -18,7 +15,7 @@ export function cargarHeader() {
                         <ul>
                             <li><a href="aulas.html">Menu Principal</a></li>
                             <li><a href="#">Configuraciones</a></li>
-                            <li><a href="#">Mis reservas</a></li>
+                            <li><a href="misReservas.html">Mis reservas</a></li>
                             <li><a href="ayuda.html">Ayuda</a></li>
                             <li><a href="reglamento.html">Reglamento</a></li>
                             <li><a href="#" id="logout">Cerrar sesion</a></li>
@@ -38,16 +35,14 @@ export function cargarHeader() {
             <ul>
                 <li class="usuario">
                     <a href="#">
-                        <img src="img/usuario.png" id="preview" alt="avatar" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #000;">
+                        <img src="img/usuario.png" id="preview" alt="avatar">
                     </a>
                     <div class="subusuario">
                         <ul>
-                            <li><div id="userinfo" style="font-weight:bold; padding:5px;">Cargando...</div></li>
-                            
+                            <li><div id="userinfo">Cargando...</div></li>
                             <input type="file" id="fileInput" accept="image/*" style="display:none;">
-                            
                             <li><button id="btnSubirFoto">Subir Foto</button></li>
-                            <li><button id="btnBorrarFoto" style="color: red;">Borrar Foto</button></li>
+                            <li><button id="btnBorrarFoto">Borrar Foto</button></li>
                         </ul>
                     </div>
                 </li>
@@ -55,68 +50,58 @@ export function cargarHeader() {
         </nav>
     `;
 
-    // 2. Activamos los eventos (Lógica que antes tenías en laboratorio.js y funcionDates.js)
     inicializarEventosHeader();
 }
 
 export function cargarFooter() {
     const footerElement = document.querySelector('footer');
-    
     if (footerElement) {
-        // Obtenemos el año actual automáticamente del sistema
         const currentYear = new Date().getFullYear();
-        
-        footerElement.innerHTML = `
-            Facultad de Informática Culiacán - ${currentYear}
-        `;
+        footerElement.innerHTML = `Facultad de Informática Culiacán - ${currentYear}`;
     }
 }
 
 function inicializarEventosHeader() {
-    // --- Lógica del Menú Principal ---
+    // Menú Principal
     const subMenu = document.querySelector('.submenu');
     const openSubMenu = document.querySelector('.abrirmenu');
-
     if (openSubMenu && subMenu) {
-        openSubMenu.addEventListener('click', function(e) {
-            e.stopPropagation(); // Evita que el click se propague al document
-            subMenu.classList.toggle('show');
-        });
-
-        document.addEventListener('click', function(e) {
-            if(subMenu.classList.contains('show') && !subMenu.contains(e.target) && !openSubMenu.contains(e.target)){
-                subMenu.classList.remove('show');
-            }
+        openSubMenu.addEventListener('click', (e) => { e.stopPropagation(); subMenu.classList.toggle('show'); });
+        document.addEventListener('click', (e) => {
+             if(subMenu.classList.contains('show') && !subMenu.contains(e.target) && !openSubMenu.contains(e.target)) subMenu.classList.remove('show');
         });
     }
 
-    // --- Lógica de Notificaciones ---
-    const btnNoti = document.querySelector('.notificacion');
-    const toasts = document.querySelector('.toasts');
-
-    if (btnNoti && toasts) {
-        btnNoti.addEventListener('click', () => {
-            const notificacion = document.createElement('div');
-            notificacion.classList.add('toast');
-            notificacion.innerText = 'No hay respuesta'; // Tu mensaje original
-            toasts.appendChild(notificacion);
-            setTimeout(() => notificacion.remove(), 3000);
-        });
-    }
-
-    // --- Lógica del Menú Usuario ---
+    // Menú Usuario
     const menuUsuario = document.querySelector('.subusuario');
     const abrirUsuario = document.querySelector('.usuario');
-
     if (abrirUsuario && menuUsuario) {
-        abrirUsuario.addEventListener('click', function(e) {
-            e.stopPropagation();
-            menuUsuario.classList.toggle('show');
+        abrirUsuario.addEventListener('click', (e) => { e.stopPropagation(); menuUsuario.classList.toggle('show'); });
+        document.addEventListener('click', (e) => {
+            if(menuUsuario.classList.contains('show') && !menuUsuario.contains(e.target) && !abrirUsuario.contains(e.target)) menuUsuario.classList.remove('show');
         });
+    }
 
-        document.addEventListener('click', function(e) {
-            if(menuUsuario.classList.contains('show') && !menuUsuario.contains(e.target) && !abrirUsuario.contains(e.target)){
-                menuUsuario.classList.remove('show');
+    // Notificación
+    const btnNoti = document.querySelector('.notificacion');
+    const toastsContainer = document.querySelector('.toasts'); // Asegúrate de tener este div en el HTML
+
+    if(btnNoti) {
+        btnNoti.addEventListener('click', () => {
+            // Si no existe el contenedor, lo buscamos o no hacemos nada
+            const contenedor = document.querySelector('.toasts');
+            if(contenedor) {
+                const noti = document.createElement('div');
+                noti.classList.add('toast');
+                noti.innerText = "No hay notificaciones nuevas";
+                contenedor.appendChild(noti);
+                
+                // Eliminar después de 3 segundos
+                setTimeout(() => {
+                    noti.remove();
+                }, 3000);
+            } else {
+                console.warn("Falta el div <div class='toasts'></div> en tu HTML");
             }
         });
     }

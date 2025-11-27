@@ -5,69 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendario de Reservas</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
-
-    <!-- estilos de google -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap">
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="datestyles.css">
 </head>
 <body>
-     <!-- encabezado -->
     <header class="header"></header>
-    <!-- Alerta -->
     <div class="toasts"></div>
-
-    <!-- Foto -->
     <div class="ImgFoto">
-        <img src="https://img.freepik.com/foto-gratis/vacant-modern-workspace-with-computers_482257-127194.jpg?semt=ais_hybrid&w=740&q=80" alt="aula">
-    </div>
-    <!-- textBox -->
-    <div class="alinear">
-    <div class="asignaraula">
-        <label for="aulas">Aula</label>
-        <select name="aulas" id="aulas">
-            <option value="option1">Ninguno</option>
-            <option value="option1">Salon 1</option>
-            <option value="opcion2">Salon 2</option>
-            <option value="opcion3">Salon 3</option>
-        </select>
-    </div>
-    <div class="horario">
-        <label for="turno">Horario</label>
-        <select name="turno" id="turno">
-            <option value="option1">Ninguno</option>
-            <option value="turno1">Matutino</option>
-            <option value="turno2">Vespertino</option>
-        </select>
-    </div>
+        <img src="https://img.freepik.com/foto-gratis/vacant-modern-workspace-with-computers_482257-127194.jpg" alt="aula">
     </div>
 
-     <!-- calendario -->
+    <div class="form-container">
+        <div class="form-row">
+            <div class="input-group">
+                <label>Aula Seleccionada</label>
+                <input type="text" id="aulaDisplay" readonly class="input-moderno input-locked">
+            </div>
+            <div class="input-group">
+                <label for="turno">Turno</label>
+                <select name="turno" id="turno" class="input-moderno">
+                    <option value="Matutino">Matutino</option>
+                    <option value="Vespertino">Vespertino</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="horas-wrapper">
+            <label>Selecciona las horas:</label>
+            <div id="containerHoras" class="grid-horas"></div>
+        </div>
+
+        <div class="form-row">
+            <div class="input-group">
+                <label for="materia">Materia</label>
+                <input type="text" id="materia" placeholder="Ej. Programación Web" class="input-moderno">
+            </div>
+            <div class="input-group">
+                <label for="grupo">Grupo</label>
+                <input type="text" id="grupo" placeholder="Ej. 3-01" class="input-moderno">
+            </div>
+        </div>
+    </div>
+
     <h3 id="selectedDates">Fechas seleccionadas:</h3>
-
     <div class="calendar">
         <div class="calendar-header">
-            <button id="prevBtn" class="calendar-btn"><i class="fas fa-angle-left"></i></button>
+            <button id="prevBtn"><i class="fas fa-angle-left"></i></button>
             <h2 id="currentMonth"></h2>
-            <button id="nextBtn" class="calendar-btn"><i class="fas fa-angle-right"></i></button>
+            <button id="nextBtn"><i class="fas fa-angle-right"></i></button>
         </div>
         <div class="calendar-days"></div>
         <div id="calendarBody" class="calendar-body"></div>
     </div>
 
-    <!-- Boton para reservar -->
+    <div class="aceptar"><button type="button" id="btnPreReservar">Continuar</button></div>
 
-    <div class="aceptar">
-        <button type="button" id="reservo"> Reservar </button>
+    <div id="modalConfirmacion" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Confirmar Reserva</h3>
+            <div class="modal-details">
+                <p><strong>Aula:</strong> <span id="confAula"></span></p>
+                <p><strong>Materia:</strong> <span id="confMateria"></span></p>
+                <p><strong>Grupo:</strong> <span id="confGrupo"></span></p>
+                <p><strong>Turno:</strong> <span id="confTurno"></span></p>
+                <p><strong>Fechas:</strong> <span id="confFechas"></span></p>
+                <p><strong>Horas:</strong> <span id="confHoras"></span></p>
+            </div>
+            <div class="modal-actions">
+                <button id="btnCancelar" class="btn-cancel">Cancelar</button>
+                <button id="btnEnviarReserva" class="btn-confirm">Confirmar</button>
+            </div>
+        </div>
     </div>
-
     <footer></footer>
-    
     <script type="module" src="funcionDates.js"></script>
     <script type="module" src="./Firebase-Config.js"></script>
     <script type="module" src="./usuarios.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
 </body>
 </html>
-
-

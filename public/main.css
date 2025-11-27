@@ -5,12 +5,12 @@
 * {
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
-  -webkit-font-smoothing: antialiased; /* Texto más nítido en Mac/iOS */
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
   margin: 0;
-  background-color: #f8f9fa; /* Un gris muy suave, mejor que el blanco puro */
+  background-color: #f8f9fa;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -27,17 +27,16 @@ a {
 header {
   display: flex;
   width: 100%;
-  height: 70px; /* Altura fija para consistencia */
+  height: 70px;
   justify-content: space-between;
   align-items: center;
   padding: 0 24px;
   background: #164B8A;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Sombra suave estilo Tailwind */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   position: relative;
   z-index: 1000;
 }
 
-/* Iconos de navegación */
 .header nav ul {
   display: flex;
   align-items: center;
@@ -47,7 +46,6 @@ header {
   padding: 0;
 }
 
-/* Botones del Header (Iconos) */
 .material-symbols-outlined {
   font-size: 24px;
   color: rgba(255, 255, 255, 0.9);
@@ -61,55 +59,48 @@ header {
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: 50%; /* Círculo perfecto */
+  border-radius: 50%;
   transition: background-color 0.2s ease;
 }
 
 .abrirmenu a:hover, .notificacion:hover {
-  background-color: rgba(255, 255, 255, 0.15); /* Efecto hover sutil */
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
-/* --- 3. MENÚS DESPLEGABLES (Dropdowns) --- */
-/* Base compartida para ambos menús */
+/* --- 3. MENÚS DESPLEGABLES --- */
 .submenu, .subusuario {
   position: absolute;
-  top: 75px; /* Justo debajo del header con un pequeño margen */
+  top: 75px;
   background-color: #ffffff;
-  border-radius: 12px; /* Bordes más redondeados */
+  border-radius: 12px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0,0,0,0.05); /* Borde casi invisible para definición */
+  border: 1px solid rgba(0,0,0,0.05);
   min-width: 240px;
   z-index: 2000;
   overflow: hidden;
-
-  /* Animación "Snappy" (Rápida y profesional) */
   opacity: 0;
   transform: translateY(-10px) scale(0.98);
   visibility: hidden;
   transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
 }
 
-/* Estado visible */
 .submenu.show, .subusuario.show {
   opacity: 1;
   transform: translateY(0) scale(1);
   visibility: visible;
 }
 
-/* Posición específica */
 .submenu { left: 20px; }
 .subusuario { right: 20px; }
 
-/* --- CONTENIDO DE LAS LISTAS --- */
 .submenu ul, .subusuario ul {
   display: flex;
   flex-direction: column;
-  padding: 8px; /* Padding interno del menú */
+  padding: 8px;
   margin: 0;
-  gap: 4px; /* Espacio entre opciones */
+  gap: 4px;
 }
 
-/* Enlaces y Botones dentro del menú */
 .submenu ul li a, 
 .subusuario button,
 .subusuario li div {
@@ -119,7 +110,7 @@ header {
   padding: 10px 12px;
   font-size: 14px;
   font-weight: 500;
-  color: #4b5563; /* Gris oscuro profesional */
+  color: #4b5563;
   border-radius: 8px;
   background: transparent;
   border: none;
@@ -128,21 +119,18 @@ header {
   transition: background-color 0.2s, color 0.2s;
 }
 
-/* Hover effects */
 .submenu ul li a:hover, 
 .subusuario button:hover {
-  background-color: #f3f4f6; /* Gris muy claro */
-  color: #111827; /* Negro casi puro */
+  background-color: #f3f4f6;
+  color: #111827;
 }
 
-/* --- ESTILOS ESPECÍFICOS DEL PERFIL --- */
-
-/* 1. Información del usuario (Texto estático) */
+/* --- PERFIL --- */
 #userinfo {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #9ca3af; /* Gris claro */
+  color: #9ca3af;
   font-weight: 600;
   padding-bottom: 5px;
   border-bottom: 1px solid #eee;
@@ -150,34 +138,20 @@ header {
   cursor: default;
 }
 
-/* 2. Botón Subir Foto (Acción Principal) */
-#btnSubirFoto {
-  color: #164B8A; /* Azul corporativo */
-}
-#btnSubirFoto:hover {
-  background-color: rgba(22, 75, 138, 0.08);
-}
+#btnSubirFoto { color: #164B8A; }
+#btnSubirFoto:hover { background-color: rgba(22, 75, 138, 0.08); }
 
-/* 3. Botón Borrar Foto (Acción Destructiva) */
-#btnBorrarFoto {
-  color: #ef4444; /* Rojo alerta */
-}
-#btnBorrarFoto:hover {
-  background-color: #fef2f2; /* Fondo rojo muy suave */
-}
+#btnBorrarFoto { color: #ef4444; }
+#btnBorrarFoto:hover { background-color: #fef2f2; }
 
-/* 4. Cerrar Sesión (En el otro menú) */
 #logout {
   color: #ef4444;
   border-top: 1px solid #eee;
   margin-top: 4px;
   padding-top: 12px;
 }
-#logout:hover {
-  background-color: #fef2f2;
-}
+#logout:hover { background-color: #fef2f2; }
 
-/* Avatar en el Header */
 .usuario img#preview {
   width: 45px;
   height: 45px;
@@ -187,12 +161,9 @@ header {
   transition: box-shadow 0.2s ease;
   display: block;
 }
+.usuario:hover img#preview { box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2); }
 
-.usuario:hover img#preview {
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
-}
-
-/* --- 4. TOASTS (Notificaciones) --- */
+/* --- TOASTS --- */
 .toasts {
   position: fixed;
   bottom: 24px;
@@ -220,13 +191,13 @@ header {
   to { transform: translateX(0); opacity: 1; }
 }
 
-/* --- 5. FOOTER --- */
+/* --- FOOTER --- */
 footer {
   text-align: center;
   padding: 20px 0;
   font-size: 13px;
   color: #fff;
-  background: linear-gradient(to right, #C0993A, #d4af37); /* Dorado degradado */
+  background: linear-gradient(to right, #C0993A, #d4af37);
   margin-top: auto;
   font-weight: 500;
   letter-spacing: 0.5px;
