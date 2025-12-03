@@ -31,11 +31,6 @@
             </div>
         </div>
 
-        <div class="horas-wrapper">
-            <label>Selecciona las horas:</label>
-            <div id="containerHoras" class="grid-horas"></div>
-        </div>
-
         <div class="form-row">
             <div class="input-group">
                 <label for="materia">Materia</label>
@@ -50,13 +45,24 @@
 
     <h3 id="selectedDates">Fechas seleccionadas:</h3>
     <div class="calendar">
-        <div class="calendar-header">
-            <button id="prevBtn"><i class="fas fa-angle-left"></i></button>
-            <h2 id="currentMonth"></h2>
-            <button id="nextBtn"><i class="fas fa-angle-right"></i></button>
-        </div>
-        <div class="calendar-days"></div>
-        <div id="calendarBody" class="calendar-body"></div>
+        <!-- VISTA SEMANAL -->
+<div id="weekContainer" class="week-container" style="display: none;">
+    <div class="week-header">
+        <button id="prevWeekButton" class="week-nav-btn">&lt;</button>
+
+        <span id="weekRangeText" class="week-title">Semana</span>
+
+        <button id="nextWeekButton" class="week-nav-btn">&gt;</button>
+    </div>
+
+    <div id="weekScroll" class="week-scroll">
+        <table id="weekTable" class="week-table">
+            <!-- Se llena con JS -->
+        </table>
+    </div>
+</div>
+
+
     </div>
 
     <div class="aceptar"><button type="button" id="btnPreReservar">Continuar</button></div>
