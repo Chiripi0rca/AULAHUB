@@ -14,7 +14,7 @@ export function cargarHeader() {
                     <div class="submenu">
                         <ul>
                             <li><a href="aulas.html">Menu Principal</a></li>
-                            <li><a href="#">Configuraciones</a></li>
+                            <li><a href="configuraciones.html">Configuraciones</a></li>
                             <li><a href="misReservas.html">Mis reservas</a></li>
                             <li><a href="ayuda.html">Ayuda</a></li>
                             <li><a href="reglamento.html">Reglamento</a></li>
