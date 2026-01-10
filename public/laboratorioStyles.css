@@ -177,3 +177,85 @@
     color: #b91c1c;
     border: 1px solid #fee2e2;
 }
+
+/* --- ESTILOS DE SOLICITUDES (ADMIN) --- */
+
+.solicitud-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-left: 5px solid #164B8A; /* Distintivo azul fuerte para admins */
+    position: relative;
+}
+
+.solicitud-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.solicitud-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.solicitud-info h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.profesor-name {
+    font-size: 13px;
+    color: #164B8A; /* Destacar nombre del profesor */
+    font-weight: 600;
+}
+
+.solicitud-body p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #4b5563;
+}
+
+/* Botones de Acción */
+.solicitud-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+    padding-top: 10px;
+    border-top: 1px dashed #eee;
+}
+
+.solicitud-actions button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s, background-color 0.2s;
+    font-family: 'Poppins', sans-serif;
+}
+
+.solicitud-actions button:active {
+    transform: scale(0.96);
+}
+
+.btn-aceptar {
+    background-color: #16a34a; /* Verde */
+    color: white;
+}
+.btn-aceptar:hover { background-color: #15803d; }
+
+.btn-rechazar {
+    background-color: #fee2e2; /* Rojo claro */
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+.btn-rechazar:hover { background-color: #fecaca; }
+
+.text-green { color: #16a34a; }
+.text-red { color: #dc2626; }

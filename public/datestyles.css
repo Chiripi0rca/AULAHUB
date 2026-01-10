@@ -1,6 +1,6 @@
 /* datestyles.css */
 
-/* --- Estructura del Formulario --- */
+/* --- Estructura del Formulario (BLINDADA) --- */
 .form-container {
     max-width: 600px;
     margin: 20px auto;
@@ -8,18 +8,32 @@
     background: white;
     border-radius: 16px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    
+    /* ESTO EVITA EL SALTO: Altura mínima fija */
+    min-height: 240px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra el contenido verticalmente si sobra espacio */
 }
 
 .form-row {
     display: flex;
     gap: 20px;
     margin-bottom: 20px;
+    align-items: flex-end;
+    width: 100%; /* Asegura ancho total */
+}
+
+.form-row:last-child {
+    margin-bottom: 0; /* Quita margen al final */
 }
 
 .input-group {
     flex: 1;
     display: flex;
     flex-direction: column;
+    /* ESTO EVITA EL COLAPSO VERTICAL */
+    min-height: 70px; 
 }
 
 .input-group label {
@@ -28,28 +42,191 @@
     color: #6b7280;
     margin-bottom: 6px;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
+/* Inputs y Selects (TAMAÑO FIJO) */
 .input-moderno {
   width: 100%;
-  padding: 10px 12px;
+  /* ALTURA FORZADA */
+  height: 42px !important; 
+  min-height: 42px !important;
+  max-height: 42px !important;
+  
+  padding: 10px 30px 10px 12px;
   font-size: 14px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
   background-color: #f9fafb;
   outline: none;
   font-family: 'Poppins', sans-serif;
-  height: 42px;
+  
+  /* Reglas para cortar texto largo sin deformar */
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  appearance: none; 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px top 50%;
+  background-size: 10px auto;
 }
 
-.input-moderno:focus { border-color: #2563eb; background-color: #fff; }
-
 .input-locked {
-    background-color: #e5e7eb;
+    background-image: none !important;
+}
+
+/* --- ESTILOS DEL CALENDARIO --- */
+
+.calendar-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center;
+}
+
+/* TEXTOS CENTRADOS */
+#currentMonth {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #164B8A;
+    text-transform: capitalize;
+}
+
+#selectedDates {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    margin: 15px auto !important;
+    font-weight: 500;
     color: #4b5563;
-    cursor: not-allowed;
-    font-weight: 600;
-    border-color: #d1d5db;
+}
+
+/* Grilla del calendario */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.calendar-day {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s;
+    font-size: 14px;
+    text-align: center;
+}
+
+.calendar-day:hover { background-color: #f3f4f6; }
+.calendar-day.selected { background-color: #164B8A; color: white; }
+.calendar-day.range { background-color: #e0f2fe; color: #164B8A; }
+.calendar-day.empty { cursor: default; background: none; }
+
+/* Vista Semanal */
+.week-container {
+  max-width: 600px;
+  width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.week-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.week-nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.week-nav-btn:hover { background: #f3f4f6; }
+
+.week-title {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.week-scroll {
+  margin-top: 8px;
+  overflow-x: auto;
+}
+
+.week-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+
+.week-table th, .week-table td {
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.week-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #374151;
+}
+
+.time-slot-cell { cursor: pointer; }
+
+.time-slot-cell.selected {
+  background-color: #e0f2fe;
+  border: 1px solid #164B8A;
+  position: relative;
+}
+
+.time-slot-cell.selected::after {
+    content: '';
+    display: block;
+    width: 6px; height: 6px;
+    background: #164B8A;
+    border-radius: 50%;
+    margin: 2px auto 0;
+}
+
+.time-slot-cell.busy {
+  background-color: #fee2e2;
+  color: #dc2626;
+  cursor: not-allowed;
 }
 
 /* --- MODAL --- */
@@ -106,85 +283,10 @@
 
 /* --- EXTRAS --- */
 .ImgFoto img {
-    display: block; margin: 20px auto; width: 95%; max-width: 800px; height: 200px;
+    display: block; margin: 20px auto; width: 95%; max-width: 600px;
+    height: 200px;
     object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
-
-.week-container {
-  max-width: 100%;
-  width: 90%;
-  margin: 16px auto;
-  padding: 12px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 10px 29px -7px rgba(63,63,63,0.48);
-}
-
-.week-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.week-nav-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.week-nav-btn:hover {
-  background: #ddd;
-}
-
-.week-title {
-  flex: 1;
-  text-align: center;
-  font-weight: 600;
-}
-
-.week-scroll {
-  margin-top: 8px;
-  overflow-x: auto;
-}
-
-.week-table {
-  border-collapse: collapse;
-  min-width: 600px;
-  font-size: 13px;
-}
-
-.week-table th,
-.week-table td {
-  border: 1px solid #e5e7eb;
-  padding: 6px 8px;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.week-table th {
-  background-color: #f3f4f6;
-  font-weight: 600;
-}
-
-.time-slot-cell {
-  cursor: pointer;
-}
-
-.time-slot-cell.selected {
-  background-color: rgba(70, 201, 240);
-  border: 1px solid #003879d0;
-}
-
-.time-slot-cell.busy {
-  background-color: rgba(250, 99, 99, 0.8);
-  color: #fff;
-}
-
 
 .aceptar button {
   display: flex; justify-content: center; margin: 24px auto 40px; padding: 12px 32px;
@@ -194,3 +296,60 @@
 }
 .aceptar button:active { transform: translateY(1px) scale(0.98); }
 .aceptar button:disabled { cursor: not-allowed; opacity: 0.6; background: #9ca3af; }
+
+/* --- ESTILOS PARA GESTIÓN ADMIN EN CALENDARIO --- */
+
+/* Celda Pendiente (Naranja) */
+.time-slot-cell.pending-slot {
+    background-color: #ffedd5; /* Fondo naranja suave */
+    border: 1px dashed #f97316; /* Borde naranja */
+    color: #c2410c;
+    position: relative;
+}
+
+/* Indicador visual de que es clicable para admin */
+.time-slot-cell.pending-slot:hover {
+    background-color: #fed7aa;
+    cursor: context-menu; /* Cursor diferente para indicar acción */
+}
+
+/* Modal de Acción Rápida (Admin) */
+.admin-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 6000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+}
+
+.admin-modal-overlay.active { opacity: 1; visibility: visible; }
+
+.admin-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 350px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    text-align: center;
+    border-top: 5px solid #f97316; /* Borde naranja superior */
+}
+
+.admin-card h3 { color: #f97316; margin-top: 0; }
+.admin-info { text-align: left; background: #f9fafb; padding: 10px; border-radius: 8px; margin: 15px 0; font-size: 14px; }
+.admin-info p { margin: 5px 0; color: #4b5563; }
+
+.admin-actions { display: flex; gap: 10px; margin-top: 20px; }
+.btn-admin { flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; color: white; transition: transform 0.1s; }
+.btn-admin:active { transform: scale(0.95); }
+
+.btn-approve { background-color: #16a34a; }
+.btn-reject { background-color: #dc2626; }
+.btn-close { background-color: #9ca3af; }

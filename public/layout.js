@@ -1,4 +1,4 @@
-// layout.js
+// layout.js - Optimizado y Auto-suficiente
 
 export function cargarHeader() {
     const headerElement = document.querySelector('header');
@@ -12,13 +12,8 @@ export function cargarHeader() {
                         <span class="material-symbols-outlined">menu_open</span>
                     </a>
                     <div class="submenu">
-                        <ul>
-                            <li><a href="aulas.html">Menu Principal</a></li>
-                            <li><a href="configuraciones.html">Configuraciones</a></li>
-                            <li><a href="misReservas.html">Mis reservas</a></li>
-                            <li><a href="ayuda.html">Ayuda</a></li>
-                            <li><a href="reglamento.html">Reglamento</a></li>
-                            <li><a href="#" id="logout">Cerrar sesion</a></li>
+                        <ul id="menu-lista">
+                            <li><a href="#">Cargando...</a></li> 
                         </ul>
                     </div>
                 </li>
@@ -53,6 +48,30 @@ export function cargarHeader() {
     inicializarEventosHeader();
 }
 
+export function actualizarMenu(esAdmin) {
+    const menuLista = document.getElementById('menu-lista');
+    if (!menuLista) return;
+
+    let html = '';
+    // Menú común
+    html += `<li><a href="aulas.html">Menu Principal</a></li>`;
+    html += `<li><a href="configuraciones.html">Configuraciones</a></li>`;
+
+    if (esAdmin) {
+        // Admin
+        html += `<li><a href="solicitudes.html" style="color: #164B8A; font-weight: bold;">Solicitudes (Admin)</a></li>`;
+        html += `<li><a href="reglamento.html">Reglamento</a></li>`;
+    } else {
+        // Profesor
+        html += `<li><a href="misReservas.html">Mis reservas</a></li>`;
+        html += `<li><a href="ayuda.html">Ayuda</a></li>`;
+        html += `<li><a href="reglamento.html">Reglamento</a></li>`;
+    }
+    // Logout
+    html += `<li><a href="#" id="logout">Cerrar sesion</a></li>`;
+    menuLista.innerHTML = html;
+}
+
 export function cargarFooter() {
     const footerElement = document.querySelector('footer');
     if (footerElement) {
@@ -62,17 +81,23 @@ export function cargarFooter() {
 }
 
 function inicializarEventosHeader() {
-    // Menú Principal
+    // 1. Submenú (Hamburguesa)
     const subMenu = document.querySelector('.submenu');
     const openSubMenu = document.querySelector('.abrirmenu');
+    
     if (openSubMenu && subMenu) {
-        openSubMenu.addEventListener('click', (e) => { e.stopPropagation(); subMenu.classList.toggle('show'); });
+        openSubMenu.addEventListener('click', (e) => { 
+            e.stopPropagation(); 
+            subMenu.classList.toggle('show'); 
+        });
         document.addEventListener('click', (e) => {
-             if(subMenu.classList.contains('show') && !subMenu.contains(e.target) && !openSubMenu.contains(e.target)) subMenu.classList.remove('show');
+             if(subMenu.classList.contains('show') && !subMenu.contains(e.target) && !openSubMenu.contains(e.target)) {
+                 subMenu.classList.remove('show');
+             }
         });
     }
 
-    // Menú Usuario
+    // 2. Menú Usuario (Perfil)
     const menuUsuario = document.querySelector('.subusuario');
     const abrirUsuario = document.querySelector('.usuario');
     if (abrirUsuario && menuUsuario) {
@@ -82,27 +107,42 @@ function inicializarEventosHeader() {
         });
     }
 
-    // Notificación
+    // 3. Notificaciones (Toast Inteligente)
     const btnNoti = document.querySelector('.notificacion');
-    const toastsContainer = document.querySelector('.toasts'); // Asegúrate de tener este div en el HTML
-
     if(btnNoti) {
         btnNoti.addEventListener('click', () => {
-            // Si no existe el contenedor, lo buscamos o no hacemos nada
-            const contenedor = document.querySelector('.toasts');
-            if(contenedor) {
-                const noti = document.createElement('div');
-                noti.classList.add('toast');
-                noti.innerText = "No hay notificaciones nuevas";
-                contenedor.appendChild(noti);
-                
-                // Eliminar después de 3 segundos
-                setTimeout(() => {
-                    noti.remove();
-                }, 3000);
-            } else {
-                console.warn("Falta el div <div class='toasts'></div> en tu HTML");
-            }
+            mostrarToast("No hay notificaciones nuevas");
         });
     }
+}
+
+// --- FUNCIÓN GLOBAL DE TOAST ---
+// Puedes llamar a esta función desde cualquier otro archivo JS si importas layout.js
+export function mostrarToast(mensaje) {
+    let contenedor = document.querySelector('.toasts');
+    
+    // Si no existe el contenedor, lo creamos al vuelo
+    if (!contenedor) {
+        contenedor = document.createElement('div');
+        contenedor.classList.add('toasts');
+        document.body.appendChild(contenedor);
+    }
+
+    const noti = document.createElement('div');
+    noti.classList.add('toast');
+    noti.innerText = mensaje;
+    
+    // Icono opcional
+    // noti.innerHTML = `<span class="material-symbols-outlined" style="margin-right:8px">info</span> ${mensaje}`;
+
+    contenedor.appendChild(noti);
+    
+    // Sonido suave opcional (si quisieras)
+    // const audio = new Audio('pop.mp3'); audio.play().catch(() => {});
+
+    setTimeout(() => {
+        noti.style.opacity = '0';
+        noti.style.transform = 'translateX(100%)';
+        setTimeout(() => noti.remove(), 300);
+    }, 3000);
 }
