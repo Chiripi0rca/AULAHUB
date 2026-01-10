@@ -23,6 +23,12 @@ a {
   transition: color 0.2s ease;
 }
 
+/* Scrollbar Personalizado */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #164B8A; }
+
 /* --- 2. HEADER PROFESIONAL --- */
 header {
   display: flex;
@@ -67,7 +73,7 @@ header {
   background-color: rgba(255, 255, 255, 0.15);
 }
 
-/* --- 3. MENÚS DESPLEGABLES --- */
+/* --- 3. MENÚS DESPLEGABLES (Izquierdo y Perfil) --- */
 .submenu, .subusuario {
   position: absolute;
   top: 75px;
@@ -191,7 +197,7 @@ header {
   to { transform: translateX(0); opacity: 1; }
 }
 
-/* --- FOOTER --- */
+/* --- FOOTER (Dorado/UAS) --- */
 footer {
   text-align: center;
   padding: 20px 0;
@@ -202,3 +208,25 @@ footer {
   font-weight: 500;
   letter-spacing: 0.5px;
 }
+
+/* --- UTILIDADES GLOBALES (Agregadas para no romper el resto) --- */
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-action {
+    background-color: #164B8A;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+.btn-action:hover { background-color: #0e3b70; }
+.btn-action:disabled { background-color: #9ca3af; cursor: not-allowed; }
