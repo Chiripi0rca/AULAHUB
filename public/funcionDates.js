@@ -1,16 +1,14 @@
-/* funcionDates.js - Calendario Inteligente + Rechazo de Conflictos */
+/* funcionDates.js */
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-import { addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+import { addDoc, collection, doc, getDoc, getDocs, query, serverTimestamp, updateDoc, where } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 import { auth, db } from "./Firebase-Config.js";
 
 const HORAS_MATUTINO = ["07:00 - 08:00", "08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "12:00 - 13:00"];
 const HORAS_VESPERTINO = ["14:00 - 15:00", "15:00 - 16:00", "16:00 - 17:00", "17:00 - 18:00", "18:00 - 19:00"];
-
-let aulaNombreReal = ""; 
-let aulaCodigo = "";     
+let aulaNombreReal = "";
+let aulaCodigo = "";
 let isUserAdmin = false;
 
-// Elementos UI
 const calendarBody = document.getElementById('calendarBody');
 const currentMonthElement = document.getElementById('currentMonth');
 const selectedDatesElement = document.getElementById('selectedDates');
@@ -20,15 +18,12 @@ const selectTurno = document.getElementById('turno');
 const aulaDisplay = document.getElementById('aulaDisplay');
 const selectMateria = document.getElementById('materia');
 const selectGrupo = document.getElementById('grupo');
+const weekContainer = document.getElementById('weekContainer');
+const weekRangeText = document.getElementById('weekRangeText');
+const weekTable = document.getElementById('weekTable');
+const prevWeekButton = document.getElementById('prevWeekButton');
+const nextWeekButton = document.getElementById('nextWeekButton');
 
-// Vista semanal
-const weekContainer   = document.getElementById('weekContainer');
-const weekRangeText   = document.getElementById('weekRangeText');
-const weekTable       = document.getElementById('weekTable');
-const prevWeekButton  = document.getElementById('prevWeekButton');
-const nextWeekButton  = document.getElementById('nextWeekButton');
-
-// Variables Calendario
 const currentDate = new Date();
 let currentMonth = currentDate.getMonth();
 let currentYear = currentDate.getFullYear();
@@ -38,135 +33,112 @@ let currentWeekStart = getStartOfWeek(new Date());
 const selectedSlots = new Set();
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Iniciar Aula
     const urlParams = new URLSearchParams(window.location.search);
     aulaCodigo = urlParams.get('aula');
     aulaNombreReal = getNombreAula(aulaCodigo);
     if (aulaDisplay) aulaDisplay.value = aulaNombreReal;
 
-    // 2. Inyectar Modal Admin
     crearModalAdmin();
     
-    // 3. Auth y Roles
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             cargarMaterias(user.uid);
-            // Verificar si es Admin
             try {
                 const roleSnap = await getDoc(doc(db, "roles", user.uid));
                 if (roleSnap.exists() && roleSnap.data().admin) {
                     isUserAdmin = true;
+                    
+                    
+                    const btnReservarContainer = document.querySelector('.aceptar');
+                    if(btnReservarContainer) btnReservarContainer.style.display = 'none';
+
+                    if(aulaDisplay) aulaDisplay.closest('.input-group').style.display = 'none';
+                    if(selectMateria) selectMateria.closest('.input-group').style.display = 'none';
+                    if(selectGrupo) selectGrupo.closest('.input-group').style.display = 'none';
+
+                    const formContainer = document.querySelector('.form-container');
+                    if(formContainer) {
+                        formContainer.style.boxShadow = "none";
+                        formContainer.style.padding = "10px";
+                        formContainer.style.minHeight = "auto";
+                        formContainer.style.background = "transparent";
+                    }
                 }
             } catch (e) { console.error(e); }
         } else {
             if(selectMateria) selectMateria.innerHTML = '<option>Inicia sesión...</option>';
         }
-        
         renderCalendar();
         if (weekContainer) weekContainer.style.display = 'block';
         renderSemana();
     });
 });
 
-/* ==========================================
-   LOGICA DE VISUALIZACIÓN (OCUPADOS Y PENDIENTES)
-   ========================================== */
 
-async function cargarHorariosOcupados(fechaInicio, fechaFin) {
-    if (!aulaNombreReal) return;
-    const strInicio = fechaToISO(fechaInicio);
-    const strFin = fechaToISO(fechaFin);
+async function enviarNotificacion(uidDestino, materia, status, horario) {
+    if (!uidDestino) return;
+    try {
+        await addDoc(collection(db, "notificaciones"), {
+            destinatarioUid: uidDestino,
+            titulo: `Reserva ${status}`,
+            mensaje: `Tu solicitud para ${materia} (${horario}) ha sido ${status.toLowerCase()}.`,
+            leido: false,
+            fecha: serverTimestamp(),
+            tipo: "estado_reserva"
+        });
+    } catch (e) { console.error("Error notif:", e); }
+}
+
+async function resolverSolicitud(id, status, horarioDb, materia, uidProfesor) {
+    const btn = status === "Aceptada" ? document.getElementById('btnAdminApprove') : document.getElementById('btnAdminReject');
+    const originalText = btn.innerText;
+    btn.innerText = "...";
+    btn.disabled = true;
 
     try {
-        const reservasRef = collection(db, "reservas");
-        const estados = isUserAdmin ? ["Aceptada", "Pendiente"] : ["Aceptada"];
+        await updateDoc(doc(db, "reservas", id), { status: status });
+        await enviarNotificacion(uidProfesor, materia, status, horarioDb);
 
-        const q = query(
-            reservasRef,
-            where("aula", "==", aulaNombreReal),
-            where("status", "in", estados),
-            where("fecha", ">=", strInicio),
-            where("fecha", "<=", strFin)
-        );
-
-        const snapshot = await getDocs(q);
-        
-        // Limpiar estilos previos
-        document.querySelectorAll('.time-slot-cell').forEach(cell => {
-            cell.classList.remove('busy', 'pending-slot');
-            cell.dataset.reservaId = ""; 
-            cell.title = "";
-        });
-
-        snapshot.forEach(docSnap => {
-            const data = docSnap.data();
-            const fecha = data.fecha;
-            
-            let horaSolo = data.horario;
-            if (data.horario.includes(fecha)) {
-                horaSolo = data.horario.replace(fecha + " ", "").trim();
-            }
-
-            const cell = document.querySelector(`.time-slot-cell[data-fecha="${fecha}"][data-hora="${horaSolo}"]`);
-            if (cell) {
-                cell.dataset.reservaId = docSnap.id;
-                cell.dataset.profesor = data.profesorName || "Profesor";
-                cell.dataset.materia = data.materia || "Sin materia";
-                cell.dataset.grupo = data.grupo || "";
-                cell.dataset.horarioDb = data.horario; // Guardamos el horario exacto para conflictos
-
-                if (data.status === "Aceptada") {
-                    cell.classList.add('busy');
-                    cell.title = `Ocupado por: ${data.profesorName}`;
-                } else if (data.status === "Pendiente") {
-                    cell.classList.add('pending-slot');
-                    cell.title = `Solicitud Pendiente: ${data.profesorName}`;
-                }
-                
-                const key = `${fecha}|${horaSolo}`;
-                selectedSlots.delete(key);
-                cell.classList.remove('selected');
-            }
-        });
-        updateSelectedDatesFromSlots();
-
-    } catch (error) {
-        console.error("Error cargando horarios:", error);
-    }
-}
-
-/* ==========================================
-   MANEJO DE CLICS (CELDA)
-   ========================================== */
-function handleCellClick(td, key) {
-    if (td.classList.contains('busy')) {
-        alert(`Horario ocupado por: ${td.dataset.profesor}`);
-        return;
-    }
-
-    if (td.classList.contains('pending-slot')) {
-        if (isUserAdmin) {
-            // Pasamos también el horario DB para rechazar conflictos
-            abrirModalAdmin(td.dataset.reservaId, td.dataset.profesor, td.dataset.materia, td.dataset.grupo, td.dataset.horarioDb);
-        } else {
-            alert("Este horario tiene una solicitud pendiente de aprobación.");
+        if (status === "Aceptada" && aulaNombreReal && horarioDb) {
+            await rechazarConflictos(aulaNombreReal, horarioDb, id);
         }
-        return;
-    }
 
-    if (selectedSlots.has(key)) {
-        selectedSlots.delete(key);
-        td.classList.remove('selected');
-    } else {
-        selectedSlots.add(key);
-        td.classList.add('selected');
+        alert(`Solicitud ${status}.`);
+        cerrarModalAdmin();
+        renderSemana(); 
+    } catch (e) {
+        console.error(e);
+        alert("Error al actualizar.");
+    } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
     }
-    updateSelectedDatesFromSlots();
 }
 
-/* ==========================================
-   MODAL ADMIN Y RECHAZO AUTOMÁTICO
-   ========================================== */
+async function rechazarConflictos(aula, horario, idExcluido) {
+    try {
+        const q = query(
+            collection(db, "reservas"),
+            where("aula", "==", aula),
+            where("horario", "==", horario),
+            where("status", "==", "Pendiente")
+        );
+        const snap = await getDocs(q);
+        const updates = [];
+        
+        snap.forEach(d => {
+            if (d.id !== idExcluido) {
+                const data = d.data();
+                updates.push(updateDoc(doc(db, "reservas", d.id), { status: "Rechazada" }));
+                updates.push(enviarNotificacion(data.ProfesorUID, data.materia, "Rechazada", data.horario));
+            }
+        });
+        
+        if(updates.length > 0) await Promise.all(updates);
+    } catch(e) { console.error("Error conflictos:", e); }
+}
+
+
 function crearModalAdmin() {
     const div = document.createElement('div');
     div.id = 'adminActionModal';
@@ -191,25 +163,27 @@ function crearModalAdmin() {
 
     document.getElementById('btnAdminClose').onclick = cerrarModalAdmin;
     
-    document.getElementById('btnAdminApprove').onclick = async () => {
+    document.getElementById('btnAdminApprove').onclick = () => {
         const modal = document.getElementById('adminActionModal');
-        await resolverSolicitud(modal.dataset.currentId, "Aceptada", modal.dataset.horarioDb);
+        resolverSolicitud(modal.dataset.currentId, "Aceptada", modal.dataset.horarioDb, modal.dataset.materia, modal.dataset.uidProf);
     };
 
-    document.getElementById('btnAdminReject').onclick = async () => {
+    document.getElementById('btnAdminReject').onclick = () => {
         const modal = document.getElementById('adminActionModal');
-        await resolverSolicitud(modal.dataset.currentId, "Rechazada", modal.dataset.horarioDb);
+        resolverSolicitud(modal.dataset.currentId, "Rechazada", modal.dataset.horarioDb, modal.dataset.materia, modal.dataset.uidProf);
     };
 }
 
-function abrirModalAdmin(id, prof, mat, grupo, horarioDb) {
+function abrirModalAdmin(id, prof, mat, grupo, horarioDb, uidProf) {
     const modal = document.getElementById('adminActionModal');
     document.getElementById('admProf').textContent = prof;
     document.getElementById('admMateria').textContent = mat;
     document.getElementById('admGrupo').textContent = grupo;
     
     modal.dataset.currentId = id; 
-    modal.dataset.horarioDb = horarioDb; // Guardamos el horario para buscar conflictos
+    modal.dataset.horarioDb = horarioDb; 
+    modal.dataset.materia = mat;
+    modal.dataset.uidProf = uidProf;
     
     modal.classList.add('active');
 }
@@ -218,59 +192,69 @@ function cerrarModalAdmin() {
     document.getElementById('adminActionModal').classList.remove('active');
 }
 
-async function resolverSolicitud(id, status, horarioDb) {
-    const btn = status === "Aceptada" ? document.getElementById('btnAdminApprove') : document.getElementById('btnAdminReject');
-    const originalText = btn.innerText;
-    btn.innerText = "...";
-    btn.disabled = true;
+async function cargarHorariosOcupados(fechaInicio, fechaFin) {
+    if (!aulaNombreReal) return;
+    const strInicio = fechaToISO(fechaInicio);
+    const strFin = fechaToISO(fechaFin);
 
     try {
-        await updateDoc(doc(db, "reservas", id), { status: status });
+        const reservasRef = collection(db, "reservas");
+        const estados = isUserAdmin ? ["Aceptada", "Pendiente"] : ["Aceptada"];
+        const q = query(reservasRef, where("aula", "==", aulaNombreReal), where("status", "in", estados), where("fecha", ">=", strInicio), where("fecha", "<=", strFin));
+        const snapshot = await getDocs(q);
         
-        // --- AQUÍ ESTÁ LA MAGIA ---
-        if (status === "Aceptada" && aulaNombreReal && horarioDb) {
-            await rechazarConflictos(aulaNombreReal, horarioDb, id);
-        }
+        document.querySelectorAll('.time-slot-cell').forEach(cell => {
+            cell.classList.remove('busy', 'pending-slot');
+            cell.dataset.reservaId = "";
+            cell.title = "";
+        });
 
-        alert(`Solicitud ${status}.`);
-        cerrarModalAdmin();
-        renderSemana(); 
-    } catch (e) {
-        console.error(e);
-        alert("Error al actualizar.");
-    } finally {
-        btn.innerText = originalText;
-        btn.disabled = false;
-    }
-}
+        snapshot.forEach(docSnap => {
+            const data = docSnap.data();
+            const fecha = data.fecha;
+            let horaSolo = data.horario;
+            if (data.horario.includes(fecha)) { horaSolo = data.horario.replace(fecha + " ", "").trim(); }
 
-async function rechazarConflictos(aula, horario, idExcluido) {
-    try {
-        // Busca reservas PENDIENTES que coincidan en AULA y HORARIO
-        const q = query(
-            collection(db, "reservas"),
-            where("aula", "==", aula),
-            where("horario", "==", horario),
-            where("status", "==", "Pendiente")
-        );
-        const snap = await getDocs(q);
-        const updates = [];
-        snap.forEach(d => {
-            if (d.id !== idExcluido) {
-                updates.push(updateDoc(doc(db, "reservas", d.id), { status: "Rechazada" }));
+            const cell = document.querySelector(`.time-slot-cell[data-fecha="${fecha}"][data-hora="${horaSolo}"]`);
+            if (cell) {
+                cell.dataset.reservaId = docSnap.id;
+                cell.dataset.profesor = data.profesorName || "Profesor";
+                cell.dataset.materia = data.materia || "Sin materia";
+                cell.dataset.grupo = data.grupo || "";
+                cell.dataset.horarioDb = data.horario; 
+                cell.dataset.uidProf = data.ProfesorUID;
+
+                if (data.status === "Aceptada") {
+                    cell.classList.add('busy');
+                    cell.title = `Ocupado por: ${data.profesorName}`;
+                } else if (data.status === "Pendiente") {
+                    cell.classList.add('pending-slot');
+                    cell.title = `Solicitud Pendiente: ${data.profesorName}`;
+                }
+                const key = `${fecha}|${horaSolo}`;
+                selectedSlots.delete(key);
+                cell.classList.remove('selected');
             }
         });
-        if(updates.length > 0) {
-            await Promise.all(updates);
-            console.log(`Auto-rechazados ${updates.length} conflictos.`);
-        }
-    } catch(e) { console.error("Error conflictos:", e); }
+    } catch (error) { console.error("Error cargando horarios:", error); }
 }
 
+function handleCellClick(td, key) {
+    if (td.classList.contains('busy')) { alert(`Horario ocupado por: ${td.dataset.profesor}`); return; }
+    if (td.classList.contains('pending-slot')) {
+        if (isUserAdmin) {
+            abrirModalAdmin(td.dataset.reservaId, td.dataset.profesor, td.dataset.materia, td.dataset.grupo, td.dataset.horarioDb, td.dataset.uidProf);
+        } else { alert("Este horario tiene una solicitud pendiente."); }
+        return;
+    }
 
-/* ==========================================
-   RESTO DEL CÓDIGO (MATERIAS, CALENDARIO BASE)
-   ========================================== */
+    if (isUserAdmin) return;
+
+    if (selectedSlots.has(key)) { selectedSlots.delete(key); td.classList.remove('selected'); } 
+    else { selectedSlots.add(key); td.classList.add('selected'); }
+    updateSelectedDatesFromSlots();
+}
+
 async function cargarMaterias(uid) {
     try {
         if(!selectMateria) return;
@@ -327,7 +311,7 @@ function getDayClassName(date) {
 
 function getStartOfWeek(date) {
     const d = new Date(date);
-    const day = d.getDay(); const diff = (day === 0 ? -6 : 1 - day); 
+    const day = d.getDay(); const diff = (day === 0 ? -6 : 1 - day);
     d.setDate(d.getDate() + diff); d.setHours(0, 0, 0, 0); return d;
 }
 
@@ -352,7 +336,7 @@ function renderSemana() {
     cargarHorariosOcupados(start, end);
 
     weekTable.innerHTML = '';
-    const diasLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie']; 
+    const diasLabels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie'];
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
     headerRow.appendChild(document.createElement('th'));
@@ -416,7 +400,6 @@ if (prevWeekButton) prevWeekButton.addEventListener('click', () => { currentWeek
 if (nextWeekButton) nextWeekButton.addEventListener('click', () => { currentWeekStart.setDate(currentWeekStart.getDate() + 7); renderSemana(); });
 if (selectTurno) selectTurno.addEventListener('change', () => { selectedSlots.clear(); updateSelectedDatesFromSlots(); renderSemana(); });
 
-// MODAL Y ENVIAR RESERVA (NORMAL)
 const btnPreReservar = document.getElementById('btnPreReservar');
 const modal = document.getElementById('modalConfirmacion');
 const btnCancelar = document.getElementById('btnCancelar');
@@ -475,7 +458,7 @@ if (btnEnviar) {
             });
             await Promise.all(promesas);
             alert("¡Solicitudes enviadas con éxito!");
-            window.location.href = "aulas.html"; 
+            window.location.href = "aulas.html";
         } catch (error) { console.error(error); alert("Error al guardar."); btnEnviar.innerText = "Confirmar"; btnEnviar.disabled = false; }
     });
 }
