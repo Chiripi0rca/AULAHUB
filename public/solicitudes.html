@@ -8,27 +8,9 @@
   <link rel="stylesheet" href="main.css">
   <link rel="stylesheet" href="laboratorioStyles.css">
   <style>
-      /* Estilos para el filtro (Solo para esta página) */
-      .filter-bar {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          margin-bottom: 20px;
-          background: #fff;
-          padding: 15px;
-          border-radius: 12px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      }
+      .filter-bar { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
       .filter-bar label { font-weight: 600; color: #555; }
-      .select-status {
-          padding: 8px 12px;
-          border-radius: 8px;
-          border: 1px solid #d1d5db;
-          font-family: 'Poppins', sans-serif;
-          outline: none;
-          min-width: 150px;
-          cursor: pointer;
-      }
+      .select-status { padding: 8px 12px; border-radius: 8px; border: 1px solid #d1d5db; outline: none; cursor: pointer; min-width: 150px; }
   </style>
 </head>
 <body>
@@ -48,17 +30,12 @@
         </div>
 
         <div id="loading" style="text-align: center; color: #666; margin-top: 20px;">
-            Verificando permisos...
+            Cargando solicitudes...
         </div>
         
-        <div id="empty-message" style="display: none; text-align: center; color: #666; margin-top: 20px;">
-            <span class="material-symbols-outlined" style="font-size: 48px; display:block; margin: 0 auto 10px; color: #9ca3af;">folder_open</span>
+        <div id="empty-message" style="display: none; text-align: center; color: #9ca3af; margin-top: 20px;">
+            <span class="material-symbols-outlined" style="font-size: 48px; display:block; margin: 0 auto 10px;">folder_open</span>
             No hay solicitudes en este estado.
-        </div>
-        
-        <div id="error-message" style="display: none; text-align: center; color: #ef4444; margin-top: 20px;">
-            <span class="material-symbols-outlined" style="font-size: 48px; display:block; margin: 0 auto 10px;">gpp_bad</span>
-            No tienes permisos de Administrador para ver esta sección.
         </div>
 
         <div id="solicitudes-container" class="grid-container">
@@ -66,8 +43,6 @@
     </div>
 
     <footer></footer>
-
-    <script type="module" src="./Firebase-Config.js"></script>
     <script type="module" src="./usuarios.js"></script>
     <script type="module" src="./solicitudes.js"></script>
 </body>

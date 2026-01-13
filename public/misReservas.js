@@ -2,17 +2,13 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/fi
 import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 import { auth, db } from "./Firebase-Config.js";
 
-// Esperar a que el DOM cargue
 document.addEventListener("DOMContentLoaded", () => {
     
-    // Verificar sesión
     onAuthStateChanged(auth, (user) => {
         if (user) {
             console.log("Usuario detectado:", user.uid);
             cargarReservas(user.uid);
         } else {
-            // Si entra directo sin login, lo mandamos fuera (opcional)
-            // window.location.href = "index.html";
             console.log("No hay usuario logueado");
         }
     });
@@ -24,7 +20,6 @@ async function cargarReservas(uid) {
     const emptyMsg = document.getElementById('empty-message');
 
     try {
-        // Consulta simple: Traer reservas donde yo sea el profesor
         const reservasRef = collection(db, "reservas");
         const q = query(reservasRef, where("ProfesorUID", "==", uid));
 
@@ -32,10 +27,8 @@ async function cargarReservas(uid) {
         const querySnapshot = await getDocs(q);
         console.log("Reservas encontradas:", querySnapshot.size);
 
-        // Ocultar cargando
         if(loading) loading.style.display = 'none';
 
-        // Si no hay datos
         if (querySnapshot.empty) {
             if(emptyMsg) emptyMsg.style.display = 'block';
             return;
@@ -45,12 +38,11 @@ async function cargarReservas(uid) {
 
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            console.log("Datos:", data); // Para depurar en consola
+            console.log("Datos:", data);
 
-            const statusClass = getStatusClass(data.status); 
+            const statusClass = getStatusClass(data.status);
             
-            // Icono dinámico
-            let icono = "computer"; 
+            let icono = "computer";
             if (data.aula && data.aula.toLowerCase().includes("auditorio")) {
                 icono = "podium";
             }
@@ -83,7 +75,6 @@ async function cargarReservas(uid) {
         console.error("Error GRAVE al cargar reservas:", error);
         if(loading) loading.innerText = "Error: " + error.message;
         
-        // Si el error es de índices, Firebase te dará un link en la consola (F12)
         if(error.message.includes("index")) {
             alert("Falta crear un índice en Firebase. Revisa la consola (F12) para el link.");
         }

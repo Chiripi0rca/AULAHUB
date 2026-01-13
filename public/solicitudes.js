@@ -1,6 +1,6 @@
-/* solicitudes.js - Con Rechazo Automático de Conflictos */
+/* solicitudes.js - Con Sistema de Notificaciones */
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-import { collection, doc, getDoc, getDocs, query, updateDoc, where } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+import { addDoc, collection, doc, getDoc, getDocs, query, serverTimestamp, updateDoc, where } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 import { auth, db } from "./Firebase-Config.js";
 
 let currentAulaAdmin = "";
@@ -26,36 +26,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function verificarAdminYCargar(uid) {
-    const loading = document.getElementById('loading');
-    const errorMsg = document.getElementById('error-message');
-    
     try {
         const roleSnap = await getDoc(doc(db, "roles", uid));
-        
-        if (!roleSnap.exists() || !roleSnap.data().admin) {
-            if(loading) loading.style.display = 'none';
-            if(errorMsg) errorMsg.style.display = 'block';
-            return;
-        }
-
+        if (!roleSnap.exists() || !roleSnap.data().admin) return;
         const data = roleSnap.data();
-        
-        // Lectura robusta
-        currentAulaAdmin = data.Aula || data.aula; 
-        currentTurnoAdmin = data.Horario || data.horario || data.Turno || data.turno; 
-
-        if (!currentTurnoAdmin || !currentAulaAdmin) {
-            if(loading) loading.innerText = "Error: Faltan datos de Aula o Horario en tu usuario.";
-            return;
+        currentAulaAdmin = data.Aula || data.aula;
+        currentTurnoAdmin = data.Horario || data.horario || data.Turno || data.turno;
+        if (currentTurnoAdmin && currentAulaAdmin) {
+            cargarSolicitudes(currentAulaAdmin, currentTurnoAdmin, "Pendiente");
         }
-
-        // Cargar pendientes por defecto
-        cargarSolicitudes(currentAulaAdmin, currentTurnoAdmin, "Pendiente");
-
-    } catch (e) {
-        console.error(e);
-        if(loading) loading.innerText = "Error: " + e.message;
-    }
+    } catch (e) { console.error(e); }
 }
 
 async function cargarSolicitudes(aulaAdmin, turnoAdmin, statusFilter) {
@@ -65,23 +45,14 @@ async function cargarSolicitudes(aulaAdmin, turnoAdmin, statusFilter) {
     
     if(container) container.innerHTML = "";
     if(emptyMsg) emptyMsg.style.display = 'none';
-    if(loading) {
-        loading.style.display = 'block';
-        loading.innerText = `Cargando solicitudes (${statusFilter})...`;
-    }
+    if(loading) loading.style.display = 'block';
 
     let aulasAFiltrar = [];
     const aulaStr = String(aulaAdmin).trim();
-
-    if (aulaStr === "AB") {
-        aulasAFiltrar = ["Laboratorio de Cómputo A", "Laboratorio de Cómputo B"];
-    } else if (aulaStr === "C") {
-        aulasAFiltrar = ["Laboratorio de Cómputo C"];
-    } else if (aulaStr === "Auditorio") {
-        aulasAFiltrar = ["Auditorio FIC"];
-    } else {
-        aulasAFiltrar = [aulaStr];
-    }
+    if (aulaStr === "AB") aulasAFiltrar = ["Laboratorio de Cómputo A", "Laboratorio de Cómputo B"];
+    else if (aulaStr === "C") aulasAFiltrar = ["Laboratorio de Cómputo C"];
+    else if (aulaStr === "Auditorio") aulasAFiltrar = ["Auditorio FIC"];
+    else aulasAFiltrar = [aulaStr];
 
     try {
         const q = query(
@@ -95,20 +66,7 @@ async function cargarSolicitudes(aulaAdmin, turnoAdmin, statusFilter) {
         if(loading) loading.style.display = 'none';
 
         if (snapshot.empty) {
-            if(emptyMsg) {
-                emptyMsg.style.display = 'block';
-                if (statusFilter === "Pendiente") {
-                    emptyMsg.innerHTML = `
-                        <span class="material-symbols-outlined" style="font-size: 48px; display:block; margin: 0 auto 10px; color: #16a34a;">check_circle</span>
-                        ¡Todo limpio! No hay solicitudes pendientes.
-                    `;
-                } else {
-                    emptyMsg.innerHTML = `
-                        <span class="material-symbols-outlined" style="font-size: 48px; display:block; margin: 0 auto 10px; color: #9ca3af;">folder_off</span>
-                        No hay solicitudes <b>${statusFilter}s</b>.
-                    `;
-                }
-            }
+            if(emptyMsg) emptyMsg.style.display = 'block';
             return;
         }
 
@@ -116,95 +74,92 @@ async function cargarSolicitudes(aulaAdmin, turnoAdmin, statusFilter) {
         snapshot.forEach(doc => {
             const r = doc.data();
             const id = doc.id;
-            
-            let icono = "computer";
-            if(r.aula && r.aula.toLowerCase().includes("auditorio")) icono = "podium";
-            const nombreMostrar = r.profesorName || r.emailUsuario || "Profesor";
+            const icono = (r.aula && r.aula.toLowerCase().includes("auditorio")) ? "podium" : "computer";
+            const nombreMostrar = r.profesorName || "Profesor";
 
             let botonesHtml = "";
             if (statusFilter === "Pendiente") {
-                // Pasamos AULA y HORARIO para poder rechazar conflictos
+                const safeMateria = (r.materia || "").replace(/'/g, "\\'");
+                const safeFecha = (r.fecha || "").replace(/'/g, "\\'");
+                const safeHora = (r.horario || "").replace(/'/g, "\\'");
+                const uidProf = r.ProfesorUID || "";
+
                 botonesHtml = `
                 <div class="solicitud-actions">
-                    <button onclick="responderSolicitud('${id}', 'Rechazada')" class="btn-rechazar">Rechazar</button>
-                    <button onclick="responderSolicitud('${id}', 'Aceptada', '${r.aula}', '${r.horario}')" class="btn-aceptar">Aceptar</button>
+                    <button onclick="responderSolicitud('${id}', 'Rechazada', '${uidProf}', '${safeMateria}', '${safeFecha}', '${safeHora}')" class="btn-rechazar">Rechazar</button>
+                    
+                    <button onclick="responderSolicitud('${id}', 'Aceptada', '${uidProf}', '${safeMateria}', '${safeFecha}', '${safeHora}', '${r.aula}')" class="btn-aceptar">Aceptar</button>
                 </div>`;
             } else {
                 let colorClass = statusFilter === "Aceptada" ? "text-green" : "text-red";
-                botonesHtml = `
-                <div class="solicitud-actions" style="border-top: 1px solid #eee; padding-top: 10px; justify-content: center;">
-                    <span style="font-weight: bold; font-size: 14px;" class="${colorClass}">Estado: ${statusFilter}</span>
-                </div>`;
+                botonesHtml = `<div class="solicitud-actions"><span class="${colorClass}">Estado: ${statusFilter}</span></div>`;
             }
 
             html += `
             <div class="card solicitud-card" id="card-${id}">
                 <div class="solicitud-header">
-                    <div class="aula-icon-small">
-                        <span class="material-symbols-outlined">${icono}</span>
-                    </div>
+                    <div class="aula-icon-small"><span class="material-symbols-outlined">${icono}</span></div>
                     <div class="solicitud-info">
                         <h3>${r.materia || "Sin materia"}</h3>
                         <span class="profesor-name">${nombreMostrar}</span>
                     </div>
                 </div>
-
                 <div class="solicitud-body">
                     <p><strong>Aula:</strong> ${r.aula}</p>
-                    <p><strong>Grupo:</strong> ${r.grupo} - ${r.turno}</p>
+                    <p><strong>Grupo:</strong> ${r.grupo}</p>
                     <p><strong>Horario:</strong> ${r.horario}</p>
                     <p><strong>Fecha:</strong> ${r.fecha || "N/A"}</p>
                 </div>
-                
                 ${botonesHtml}
-            </div>
-            `;
+            </div>`;
         });
-
         if(container) container.innerHTML = html;
 
-    } catch (error) {
-        console.error("Error:", error);
-        if(loading) loading.innerText = "Error: " + error.message;
-    }
+    } catch (error) { console.error("Error:", error); }
 }
 
-// --- FUNCIÓN INTELIGENTE: Responder y Limpiar Conflictos ---
-window.responderSolicitud = async (id, nuevoStatus, aula, horario) => {
-    const card = document.getElementById(`card-${id}`);
-    
-    try {
-        if(card) {
-            card.style.opacity = "0.5";
-            card.style.pointerEvents = "none";
-        }
-        
-        // 1. Actualizar la reserva principal
-        await updateDoc(doc(db, "reservas", id), { status: nuevoStatus });
 
-        // 2. Si se ACEPTÓ, buscar y rechazar conflictos (Igual que en Android)
+window.responderSolicitud = async (id, nuevoStatus, uidProfesor, materia, fecha, horario, aula) => {
+    const card = document.getElementById(`card-${id}`);
+    if(card) { card.style.opacity = "0.5"; card.style.pointerEvents = "none"; }
+
+    try {
+        await updateDoc(doc(db, "reservas", id), { status: nuevoStatus });
+        await enviarNotificacion(uidProfesor, materia, nuevoStatus, fecha, horario);
+
         if (nuevoStatus === "Aceptada" && aula && horario) {
             await rechazarConflictos(aula, horario, id);
         }
 
-        // 3. Recargar la lista completa (para que desaparezcan los rechazados automáticos)
         if(currentAulaAdmin && currentTurnoAdmin) {
             const filterSelect = document.getElementById("statusFilter");
-            const status = filterSelect ? filterSelect.value : "Pendiente";
-            cargarSolicitudes(currentAulaAdmin, currentTurnoAdmin, status);
-        } else {
-            // Fallback visual si no se recarga
-            if(card) card.remove();
+            cargarSolicitudes(currentAulaAdmin, currentTurnoAdmin, filterSelect ? filterSelect.value : "Pendiente");
         }
 
     } catch (e) {
         console.error(e);
-        alert("Error al actualizar.");
+        alert("Error al procesar.");
         if(card) { card.style.opacity = "1"; card.style.pointerEvents = "all"; }
     }
 };
 
-// Busca otras solicitudes pendientes para el mismo AULA y HORA y las rechaza
+async function enviarNotificacion(uidDestino, materia, status, fecha, horario) {
+    if (!uidDestino) return;
+    try {
+        await addDoc(collection(db, "notificaciones"), {
+            destinatarioUid: uidDestino,
+            titulo: `Reserva ${status}`,
+            mensaje: `Tu solicitud para ${materia} (${horario}) ha sido ${status.toLowerCase()}.`,
+            leido: false,
+            fecha: serverTimestamp(),
+            tipo: "estado_reserva"
+        });
+        console.log("Notificación enviada web");
+    } catch (e) {
+        console.error("Error enviando notificación:", e);
+    }
+}
+
 async function rechazarConflictos(aula, horario, idExcluido) {
     try {
         const q = query(
@@ -219,20 +174,22 @@ async function rechazarConflictos(aula, horario, idExcluido) {
 
         snapshot.forEach(d => {
             if (d.id !== idExcluido) {
-                console.log(`Auto-rechazando conflicto: ${d.id}`);
+                const data = d.data();
                 updates.push(updateDoc(doc(db, "reservas", d.id), { status: "Rechazada" }));
+
+                updates.push(enviarNotificacion(
+                    data.ProfesorUID,
+                    data.materia,
+                    "Rechazada",
+                    data.fecha,
+                    data.horario
+                ));
             }
         });
 
         if(updates.length > 0) {
             await Promise.all(updates);
-            alert(`Se aceptó la solicitud y se rechazaron automáticamente ${updates.length} conflicto(s) de horario.`);
-        } else {
-            // Solo feedback simple
-             console.log("Solicitud aceptada sin conflictos.");
+            console.log("Conflictos rechazados y notificados.");
         }
-
-    } catch (error) {
-        console.error("Error al rechazar conflictos:", error);
-    }
+    } catch (error) { console.error("Error conflictos:", error); }
 }

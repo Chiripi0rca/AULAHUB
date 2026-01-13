@@ -1,32 +1,31 @@
 /* laboratorioStyles.css */
 
 .content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 40px 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .content h2 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 30px;
-  text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
-/* --- ESTILOS AYUDA (GRID) --- */
-.help-grid {
+.grid-container, .aula-list, .help-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
     width: 100%;
 }
 
-.help-card {
+.card {
     background-color: #fff;
     border-radius: 16px;
     padding: 24px;
@@ -35,227 +34,70 @@
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     display: flex;
     flex-direction: column;
-    cursor: default;
 }
 
-.help-card:hover {
+.card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
-    border-color: rgba(22, 75, 138, 0.2);
-}
-
-.card-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 12px;
-}
-
-.card-header h3 { margin: 0; font-size: 18px; font-weight: 600; color: #1f2937; }
-
-.card-header .material-symbols-outlined {
-    font-size: 28px;
-    padding: 10px;
-    border-radius: 12px;
-    background-color: #f3f4f6;
-    color: #4b5563;
-}
-
-/* Colores Ayuda */
-.icon-blue { color: #2563eb !important; background-color: #eff6ff !important; }
-.icon-orange { color: #f59e0b !important; background-color: #fffbeb !important; }
-.icon-purple { color: #9333ea !important; background-color: #f3e8ff !important; }
-.icon-red { color: #dc2626 !important; background-color: #fef2f2 !important; }
-.icon-green { color: #16a34a !important; background-color: #f0fdf4 !important; }
-.icon-yellow { color: #ca8a04 !important; background-color: #fefce8 !important; }
-.icon-teal { color: #0d9488 !important; background-color: #f0fdfa !important; }
-.icon-dark { color: #111827 !important; background-color: #f9fafb !important; }
-
-.card-body { color: #4b5563; font-size: 14px; line-height: 1.6; }
-.card-body ul { padding-left: 20px; margin: 0; }
-.card-body li { margin-bottom: 6px; }
-
-/* --- ESTILOS AULAS (CLÁSICO LISTA) --- */
-.aula-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: rgba(0,0,0,0.1);
 }
 
 .aula-card-classic {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 15px;
-    padding: 15px 20px;
-    margin: 10px 0;
-    width: 100%;
-    max-width: 400px;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.aula-card-classic:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    background-color: #fafafa;
-}
-
-.aula-emoji { font-size: 40px; margin-right: 18px; line-height: 1; }
-.aula-text { display: flex; flex-direction: column; }
-.aula-text strong { font-size: 16px; color: #111; margin-bottom: 2px; }
-.aula-text span { font-size: 14px; color: #666; }
-/* --- ESTILOS DE MIS RESERVAS --- */
-
-/* Ajuste de la tarjeta para reservas */
-.reserva-card {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    border-left: 5px solid transparent; /* Borde izquierdo de color */
-}
-
-.reserva-header {
-    display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    border-bottom: 1px solid #f3f4f6;
-    padding-bottom: 10px;
+    text-align: center;
 }
+.aula-emoji { font-size: 48px; margin-bottom: 16px; }
+.aula-text strong { display: block; font-size: 18px; color: #1f2937; margin-bottom: 4px; }
+.aula-text span { font-size: 14px; color: #6b7280; }
 
-.aula-icon-small {
-    width: 40px; height: 40px;
-    background-color: #eff6ff;
-    color: #2563eb;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-}
-.aula-icon-small span { font-size: 20px; }
-
-.reserva-title {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-.reserva-title h3 { margin: 0; font-size: 16px; color: #1f2937; }
-.reserva-title span { font-size: 12px; color: #6b7280; }
-
-.reserva-details p {
-    margin: 4px 0;
-    font-size: 14px;
-    color: #4b5563;
-}
-.reserva-details strong { color: #374151; }
-
-/* --- BADGES DE ESTADO (Etiquetas de color) --- */
-.status-badge {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-/* Pendiente (Amarillo/Naranja) */
-.status-pending {
-    background-color: #fff7ed;
-    color: #c2410c;
-    border: 1px solid #ffedd5;
-}
-/* Aceptada (Verde) */
-.status-success {
-    background-color: #f0fdf4;
-    color: #15803d;
-    border: 1px solid #dcfce7;
-}
-/* Rechazada (Rojo) */
-.status-error {
-    background-color: #fef2f2;
-    color: #b91c1c;
-    border: 1px solid #fee2e2;
-}
-
-/* --- ESTILOS DE SOLICITUDES (ADMIN) --- */
-
-.solicitud-card {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    border-left: 5px solid #164B8A; /* Distintivo azul fuerte para admins */
-    position: relative;
-}
+.solicitud-card { border-left: 5px solid #164B8A; }
 
 .solicitud-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid #eee; padding-bottom: 10px;
 }
 
-.solicitud-info {
-    display: flex;
-    flex-direction: column;
-}
+.solicitud-info h3 { margin: 0; font-size: 16px; color: #333; }
+.profesor-name { font-size: 13px; color: #164B8A; font-weight: 600; }
 
-.solicitud-info h3 {
-    margin: 0;
-    font-size: 16px;
-    color: #333;
-}
+.solicitud-body p { margin: 4px 0; font-size: 14px; color: #4b5563; }
 
-.profesor-name {
-    font-size: 13px;
-    color: #164B8A; /* Destacar nombre del profesor */
-    font-weight: 600;
-}
-
-.solicitud-body p {
-    margin: 4px 0;
-    font-size: 14px;
-    color: #4b5563;
-}
-
-/* Botones de Acción */
 .solicitud-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 5px;
-    padding-top: 10px;
+    display: flex; gap: 10px; margin-top: 10px; padding-top: 10px;
     border-top: 1px dashed #eee;
 }
 
 .solicitud-actions button {
-    flex: 1;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    transition: transform 0.1s, opacity 0.2s, background-color 0.2s;
-    font-family: 'Poppins', sans-serif;
+    flex: 1; padding: 8px; border: none; border-radius: 6px;
+    cursor: pointer; font-weight: 500; font-size: 13px;
+    transition: background 0.2s;
 }
 
-.solicitud-actions button:active {
-    transform: scale(0.96);
-}
+.btn-aceptar { background-color: #dcfce7; color: #166534; }
+.btn-aceptar:hover { background-color: #bbf7d0; }
 
-.btn-aceptar {
-    background-color: #16a34a; /* Verde */
-    color: white;
-}
-.btn-aceptar:hover { background-color: #15803d; }
-
-.btn-rechazar {
-    background-color: #fee2e2; /* Rojo claro */
-    color: #dc2626;
-    border: 1px solid #fecaca;
-}
+.btn-rechazar { background-color: #fee2e2; color: #991b1b; }
 .btn-rechazar:hover { background-color: #fecaca; }
 
-.text-green { color: #16a34a; }
-.text-red { color: #dc2626; }
+.text-green { color: #166534; font-weight: 600; padding: 10px; display: block; text-align: center; background: #dcfce7; border-radius: 6px; margin-top: 10px;}
+.text-red { color: #991b1b; font-weight: 600; padding: 10px; display: block; text-align: center; background: #fee2e2; border-radius: 6px; margin-top: 10px;}
+
+.reserva-card { border-left: 5px solid #f59e0b; }
+.card-header-reserva { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+.reserva-title h3 { margin: 0; font-size: 16px; color: #111827; }
+.reserva-title span { font-size: 13px; color: #6b7280; }
+
+.status-badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.status-success { background: #dcfce7; color: #166534; }
+.status-error { background: #fee2e2; color: #991b1b; }
+.status-pending { background: #fef3c7; color: #b45309; }
+
+.icon-blue { color: #2563eb; background-color: #eff6ff; padding: 10px; border-radius: 50%; }
+.icon-yellow, .icon-orange { color: #d97706; background-color: #fef3c7; padding: 10px; border-radius: 50%; }
+.icon-red { color: #dc2626; background-color: #fee2e2; padding: 10px; border-radius: 50%; }
+.icon-green { color: #16a34a; background-color: #dcfce7; padding: 10px; border-radius: 50%; }
+
+.icon-purple { color: #9333ea; background-color: #f3e8ff; padding: 10px; border-radius: 50%; }
+
+.config-icon, .card-header .material-symbols-outlined { font-size: 24px; }
