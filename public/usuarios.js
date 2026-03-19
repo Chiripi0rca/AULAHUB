@@ -179,7 +179,10 @@ function aplicarRestricciones(isAdminRaw, AulaRaw) {
     const cardLabB = document.querySelector(".card[data-aula='labB']");
     const cardCentro = document.querySelector(".card[data-aula='centro']");
     const cardAuditorio = document.querySelector(".card[data-aula='auditorio']");
-    const cards = [cardLabA, cardLabB, cardCentro, cardAuditorio];
+    //se agregaron las cards de ciencia de datos y posgrado
+    const cardlabCD = document.querySelector(".card[data-aula='labCD']");
+    const cardlabP= document.querySelector(".card[data-aula='labP']");
+    const cards = [cardLabA, cardLabB, cardCentro, cardAuditorio, cardlabCD, cardlabP];
 
     if(document.querySelector('.aula-list')) {
         if (!isAdmin) {
