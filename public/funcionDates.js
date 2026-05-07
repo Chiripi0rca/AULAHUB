@@ -38,6 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
     aulaNombreReal = getNombreAula(aulaCodigo);
     if (aulaDisplay) aulaDisplay.value = aulaNombreReal;
 
+    const aulaImg = document.getElementById('aulaImg');
+    if (aulaImg) {
+        const imgPath = getImagenAula(aulaCodigo);
+        aulaImg.src = imgPath;
+        aulaImg.alt = aulaNombreReal;
+        aulaImg.onerror = () => { aulaImg.src = "img/aulas/default.jpg"; };
+    }
+
     crearModalAdmin();
     
     onAuthStateChanged(auth, async (user) => {
@@ -469,6 +477,20 @@ function getNombreAula(codigo) {
         case "labB": return "Laboratorio de Cómputo B";
         case "centro": return "Laboratorio de Cómputo C";
         case "auditorio": return "Auditorio FIC";
+        case "labCD": return "Laboratorio de Ciencia de Datos";
+        case "labP": return "Laboratorio de Posgrado";
         default: return "Aula desconocida";
+    }
+}
+
+function getImagenAula(codigo) {
+    switch (codigo) {
+        case "labA": return "img/aulas/labA.jpg";
+        case "labB": return "img/aulas/labB.jpg";
+        case "centro": return "img/aulas/centro.jpg";
+        case "auditorio": return "img/aulas/auditorio.jpg";
+        case "labCD": return "img/aulas/labCD.jpg";
+        case "labP": return "img/aulas/labP.jpg";
+        default: return "img/aulas/default.jpg";
     }
 }
