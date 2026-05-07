@@ -201,6 +201,12 @@ function aplicarRestricciones(isAdminRaw, AulaRaw) {
         case "Auditorio": 
             if (cardAuditorio) cardAuditorio.style.visibility = "visible"; 
             break;
-        }
+        case "CD":
+            if (cardlabCD) cardlabCD.style.visibility = "visible"; 
+            break;
+        case "Posgrado":
+            if (cardlabP) cardlabP.style.visibility = "visible"; 
+            break;
     }
+}
 }

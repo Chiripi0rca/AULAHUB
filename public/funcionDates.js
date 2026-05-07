@@ -485,12 +485,12 @@ function getNombreAula(codigo) {
 
 function getImagenAula(codigo) {
     switch (codigo) {
-        case "labA": return "img/aulas/labA.jpg";
-        case "labB": return "img/aulas/labB.jpg";
-        case "centro": return "img/aulas/centro.jpg";
-        case "auditorio": return "img/aulas/auditorio.jpg";
+        case "labA": return "img/aulas/labA.jpeg";
+        case "labB": return "img/aulas/labB.jpeg";
+        case "centro": return "img/aulas/centro.jpeg";
+        case "auditorio": return "img/aulas/auditorio.jpeg";
         case "labCD": return "img/aulas/labCD.jpg";
-        case "labP": return "img/aulas/labP.jpg";
+        case "labP": return "img/aulas/labP.jpeg";
         default: return "img/aulas/default.jpg";
     }
 }

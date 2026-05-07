@@ -52,6 +52,8 @@ async function cargarSolicitudes(aulaAdmin, turnoAdmin, statusFilter) {
     if (aulaStr === "AB") aulasAFiltrar = ["Laboratorio de Cómputo A", "Laboratorio de Cómputo B"];
     else if (aulaStr === "C") aulasAFiltrar = ["Laboratorio de Cómputo C"];
     else if (aulaStr === "Auditorio") aulasAFiltrar = ["Auditorio FIC"];
+    else if (aulaStr === "CD") aulasAFiltrar = ["Laboratorio de Ciencia de Datos"];
+    else if (aulaStr === "Todas") aulasAFiltrar = ["Laboratorio de Cómputo A", "Laboratorio de Cómputo B", "Laboratorio de Cómputo C", "Auditorio FIC"];
     else aulasAFiltrar = [aulaStr];
 
     try {
