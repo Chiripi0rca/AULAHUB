@@ -27,20 +27,17 @@ export function cargarHeader() {
         </nav>
         <nav>
             <ul>
-                <div class="notificacion" id="btnNotificacion">
-                    <span class="material-symbols-outlined">notifications</span>
-                </div>
-                
-                <div class="notificaciones-menu" id="menuNotificaciones">
-                    <div class="noti-header">Notificaciones</div>
-                    <ul class="noti-list" id="listaNotificaciones">
-                        <li class="noti-vacio">Cargando...</li>
-                    </ul>
-                </div>
-            </ul>
-        </nav>
-        <nav>
-            <ul>
+                <li>
+                    <div class="notificacion" id="btnNotificacion">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </div>
+                    <div class="notificaciones-menu" id="menuNotificaciones">
+                        <div class="noti-header">Notificaciones</div>
+                        <ul class="noti-list" id="listaNotificaciones">
+                            <li class="noti-vacio">Cargando...</li>
+                        </ul>
+                    </div>
+                </li>
                 <li class="usuario">
                     <a href="#">
                         <img src="img/usuario.png" id="preview" alt="avatar">
