@@ -197,6 +197,7 @@ export function actualizarMenu(esAdmin) {
     html += `<li><a href="configuraciones.html">Configuraciones</a></li>`;
     if (esAdmin) {
         html += `<li><a href="solicitudes.html" style="color: #164B8A; font-weight: bold;">Solicitudes (Admin)</a></li>`;
+        html += `<li><a href="misReservas.html">Historial de Reservas</a></li>`;
         html += `<li><a href="reglamento.html">Reglamento</a></li>`;
     } else {
         html += `<li><a href="misReservas.html">Mis reservas</a></li>`;

@@ -161,6 +161,39 @@
     align-items: flex-end;
 }
 
+.filter-group-maestro {
+    min-width: 180px;
+}
+
+.filter-group select[multiple] {
+    padding: 4px 6px;
+    min-height: 100px;
+    cursor: default;
+    resize: vertical;
+}
+
+.maestro-btns {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.btn-sel-maestro {
+    font-size: 11px;
+    padding: 3px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    background: #f3f4f6;
+    color: #374151;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.15s;
+}
+
+.btn-sel-maestro:hover {
+    background: #e5e7eb;
+}
+
 .toolbar-actions {
     display: flex;
     gap: 10px;

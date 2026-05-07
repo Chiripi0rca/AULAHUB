@@ -22,11 +22,13 @@
             <div class="filter-row">
 
                 <!-- Filtro por maestro (solo admin) -->
-                <div class="filter-group" id="grupo-maestro" style="display:none">
-                    <label>Maestro</label>
-                    <select id="filtro-maestro">
-                        <option value="">Todos los maestros</option>
-                    </select>
+                <div class="filter-group filter-group-maestro" id="grupo-maestro" style="display:none">
+                    <label>Maestros</label>
+                    <select id="filtro-maestro" multiple size="5"></select>
+                    <div class="maestro-btns">
+                        <button type="button" id="btn-todos-maestros" class="btn-sel-maestro">Todos</button>
+                        <button type="button" id="btn-ninguno-maestros" class="btn-sel-maestro">Ninguno</button>
+                    </div>
                 </div>
 
                 <!-- Filtro por período -->
