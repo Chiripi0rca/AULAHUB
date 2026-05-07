@@ -62,6 +62,13 @@ function configurarEventos() {
 
     document.getElementById('btn-aplicar').addEventListener('click', aplicarFiltros);
     document.getElementById('btn-pdf').addEventListener('click', exportarPDF);
+
+    document.getElementById('btn-todos-maestros')?.addEventListener('click', () => {
+        Array.from(document.getElementById('filtro-maestro').options).forEach(o => o.selected = true);
+    });
+    document.getElementById('btn-ninguno-maestros')?.addEventListener('click', () => {
+        Array.from(document.getElementById('filtro-maestro').options).forEach(o => o.selected = false);
+    });
 }
 
 // ─── Carga de datos ──────────────────────────────────────────────────────────
@@ -117,10 +124,12 @@ async function cargarTodasLasReservas() {
 
         const maestros = [...new Set(allReservas.map(r => r.profesorName).filter(Boolean))].sort();
         const sel = document.getElementById('filtro-maestro');
+        sel.innerHTML = '';
         maestros.forEach(m => {
             const opt = document.createElement('option');
             opt.value = m;
             opt.textContent = m;
+            opt.selected = true;
             sel.appendChild(opt);
         });
     } catch (e) {
@@ -209,12 +218,20 @@ function getRangoDelPeriodo() {
     return { inicio, fin };
 }
 
+function getMaestrosSeleccionados() {
+    if (!isAdmin) return null;
+    const sel = document.getElementById('filtro-maestro');
+    const seleccionados = Array.from(sel.selectedOptions).map(o => o.value);
+    if (seleccionados.length === 0 || seleccionados.length === sel.options.length) return null;
+    return new Set(seleccionados);
+}
+
 function aplicarFiltros() {
     const { inicio, fin } = getRangoDelPeriodo();
-    const maestro = isAdmin ? document.getElementById('filtro-maestro').value : null;
+    const maestros = getMaestrosSeleccionados();
 
     filteredReservas = allReservas.filter(r => {
-        if (maestro && r.profesorName !== maestro) return false;
+        if (maestros && !maestros.has(r.profesorName)) return false;
 
         if (inicio || fin) {
             const fecha = parseFecha(r.fecha);
@@ -306,10 +323,19 @@ function renderReservas(reservas) {
 
 function getDescripcionFiltro() {
     const periodo = document.getElementById('filtro-periodo').value;
-    const maestro = isAdmin ? document.getElementById('filtro-maestro').value : null;
-
     const partes = [];
-    if (maestro) partes.push(`Maestro: ${maestro}`);
+
+    if (isAdmin) {
+        const sel = document.getElementById('filtro-maestro');
+        const seleccionados = Array.from(sel.selectedOptions).map(o => o.value);
+        if (seleccionados.length === 0 || seleccionados.length === sel.options.length) {
+            partes.push('Todos los maestros');
+        } else if (seleccionados.length === 1) {
+            partes.push(`Maestro: ${seleccionados[0]}`);
+        } else {
+            partes.push(`Maestros: ${seleccionados.join(', ')}`);
+        }
+    }
 
     if (periodo === 'todo')      partes.push('Todas las fechas');
     else if (periodo === 'dia')  partes.push(`Día: ${formatFecha(document.getElementById('fecha-dia').value)}`);
