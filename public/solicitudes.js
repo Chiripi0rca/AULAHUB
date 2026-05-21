@@ -53,15 +53,15 @@ async function cargarSolicitudes(aulaAdmin, turnoAdmin, statusFilter) {
     else if (aulaStr === "C") aulasAFiltrar = ["Laboratorio de Cómputo C"];
     else if (aulaStr === "Auditorio") aulasAFiltrar = ["Auditorio FIC"];
     else if (aulaStr === "CD") aulasAFiltrar = ["Laboratorio de Ciencia de Datos"];
-    else if (aulaStr === "Todas") aulasAFiltrar = ["Laboratorio de Cómputo A", "Laboratorio de Cómputo B", "Laboratorio de Cómputo C", "Auditorio FIC"];
+    else if (aulaStr === "Posgrado") aulasAFiltrar = ["Laboratorio de Posgrado"];
+    else if (aulaStr === "Todas") aulasAFiltrar = ["Laboratorio de Cómputo A", "Laboratorio de Cómputo B", "Laboratorio de Cómputo C", "Auditorio FIC", "Laboratorio de Ciencia de Datos", "Laboratorio de Posgrado"];
     else aulasAFiltrar = [aulaStr];
 
     try {
         const q = query(
             collection(db, "reservas"),
             where("status", "==", statusFilter),
-            where("turno", "==", turnoAdmin),
-            where("aula", "in", aulasAFiltrar)
+            where("turno", "==", turnoAdmin)
         );
 
         const snapshot = await getDocs(q);
@@ -85,13 +85,17 @@ async function cargarSolicitudes(aulaAdmin, turnoAdmin, statusFilter) {
                 const safeFecha = (r.fecha || "").replace(/'/g, "\\'");
                 const safeHora = (r.horario || "").replace(/'/g, "\\'");
                 const uidProf = r.ProfesorUID || "";
+                const esAulaPropia = aulasAFiltrar.includes(r.aula);
 
-                botonesHtml = `
-                <div class="solicitud-actions">
-                    <button onclick="responderSolicitud('${id}', 'Rechazada', '${uidProf}', '${safeMateria}', '${safeFecha}', '${safeHora}')" class="btn-rechazar">Rechazar</button>
-                    
-                    <button onclick="responderSolicitud('${id}', 'Aceptada', '${uidProf}', '${safeMateria}', '${safeFecha}', '${safeHora}', '${r.aula}')" class="btn-aceptar">Aceptar</button>
-                </div>`;
+                if (esAulaPropia) {
+                    botonesHtml = `
+                    <div class="solicitud-actions">
+                        <button onclick="responderSolicitud('${id}', 'Rechazada', '${uidProf}', '${safeMateria}', '${safeFecha}', '${safeHora}')" class="btn-rechazar">Rechazar</button>
+                        <button onclick="responderSolicitud('${id}', 'Aceptada', '${uidProf}', '${safeMateria}', '${safeFecha}', '${safeHora}', '${r.aula}')" class="btn-aceptar">Aceptar</button>
+                    </div>`;
+                } else {
+                    botonesHtml = `<div class="solicitud-actions"><span class="badge-solo-vista">Solo visualización</span></div>`;
+                }
             } else {
                 let colorClass = statusFilter === "Aceptada" ? "text-green" : "text-red";
                 botonesHtml = `<div class="solicitud-actions"><span class="${colorClass}">Estado: ${statusFilter}</span></div>`;

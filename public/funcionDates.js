@@ -8,6 +8,7 @@ const HORAS_VESPERTINO = ["14:00 - 15:00", "15:00 - 16:00", "16:00 - 17:00", "17
 let aulaNombreReal = "";
 let aulaCodigo = "";
 let isUserAdmin = false;
+let adminAulaCodigo = "";
 
 const calendarBody = document.getElementById('calendarBody');
 const currentMonthElement = document.getElementById('currentMonth');
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const roleSnap = await getDoc(doc(db, "roles", user.uid));
                 if (roleSnap.exists() && roleSnap.data().admin) {
                     isUserAdmin = true;
-                    
+                    adminAulaCodigo = roleSnap.data().Aula || roleSnap.data().aula || "";
                     
                     const btnReservarContainer = document.querySelector('.aceptar');
                     if(btnReservarContainer) btnReservarContainer.style.display = 'none';
@@ -193,6 +194,26 @@ function abrirModalAdmin(id, prof, mat, grupo, horarioDb, uidProf) {
     modal.dataset.materia = mat;
     modal.dataset.uidProf = uidProf;
     
+    const esAulaPropia = adminAulaCodigo === "Todas" || urlCodigoToAdminCodigo(aulaCodigo) === adminAulaCodigo;
+    const btnApprove = document.getElementById('btnAdminApprove');
+    const btnReject = document.getElementById('btnAdminReject');
+    if (btnApprove) btnApprove.style.display = esAulaPropia ? '' : 'none';
+    if (btnReject) btnReject.style.display = esAulaPropia ? '' : 'none';
+
+    let avisoVista = document.getElementById('adminModalAvisoVista');
+    if (!esAulaPropia) {
+        if (!avisoVista) {
+            avisoVista = document.createElement('p');
+            avisoVista.id = 'adminModalAvisoVista';
+            avisoVista.style.cssText = "font-size:13px;color:#6b7280;text-align:center;margin-top:8px;";
+            avisoVista.textContent = "No puedes gestionar reservas de otras aulas.";
+            document.querySelector('#adminActionModal .admin-actions').after(avisoVista);
+        }
+        avisoVista.style.display = '';
+    } else if (avisoVista) {
+        avisoVista.style.display = 'none';
+    }
+
     modal.classList.add('active');
 }
 
@@ -470,6 +491,16 @@ if (btnEnviar) {
         } catch (error) { console.error(error); alert("Error al guardar."); btnEnviar.innerText = "Confirmar"; btnEnviar.disabled = false; }
     });
 }
+
+function urlCodigoToAdminCodigo(urlCodigo) {
+    if (urlCodigo === "labA" || urlCodigo === "labB") return "AB";
+    if (urlCodigo === "centro") return "C";
+    if (urlCodigo === "auditorio") return "Auditorio";
+    if (urlCodigo === "labCD") return "CD";
+    if (urlCodigo === "labP") return "Posgrado";
+    return "";
+}
+
 
 function getNombreAula(codigo) {
     switch (codigo) {

@@ -185,28 +185,7 @@ function aplicarRestricciones(isAdminRaw, AulaRaw) {
     const cards = [cardLabA, cardLabB, cardCentro, cardAuditorio, cardlabCD, cardlabP];
 
     if(document.querySelector('.aula-list')) {
-        if (!isAdmin) {
         cards.forEach(c => { if (c) c.style.visibility = "visible"; });
-        return;
-        }
-        cards.forEach(c => { if (c) c.style.visibility = "hidden"; });
-        switch (Aula) {
-        case "AB": 
-            if (cardLabA) cardLabA.style.visibility = "visible"; 
-            if (cardLabB) cardLabB.style.visibility = "visible"; 
-            break;
-        case "C": 
-            if (cardCentro) cardCentro.style.visibility = "visible"; 
-            break;
-        case "Auditorio": 
-            if (cardAuditorio) cardAuditorio.style.visibility = "visible"; 
-            break;
-        case "CD":
-            if (cardlabCD) cardlabCD.style.visibility = "visible"; 
-            break;
-        case "Posgrado":
-            if (cardlabP) cardlabP.style.visibility = "visible"; 
-            break;
-    }
+        
 }
 }

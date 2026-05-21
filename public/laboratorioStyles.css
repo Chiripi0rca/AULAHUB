@@ -82,6 +82,7 @@
 
 .text-green { color: #166534; font-weight: 600; padding: 10px; display: block; text-align: center; background: #dcfce7; border-radius: 6px; margin-top: 10px;}
 .text-red { color: #991b1b; font-weight: 600; padding: 10px; display: block; text-align: center; background: #fee2e2; border-radius: 6px; margin-top: 10px;}
+.badge-solo-vista { color: #6b7280; font-size: 12px; font-weight: 500; padding: 6px 12px; background: #f3f4f6; border-radius: 6px; border: 1px dashed #d1d5db; display: inline-block; }
 
 .reserva-card { border-left: 5px solid #f59e0b; }
 .card-header-reserva { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
