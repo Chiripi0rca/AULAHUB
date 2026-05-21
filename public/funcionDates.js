@@ -506,7 +506,7 @@ function getNombreAula(codigo) {
     switch (codigo) {
         case "labA": return "Laboratorio de Cómputo A";
         case "labB": return "Laboratorio de Cómputo B";
-        case "centro": return "Laboratorio de Cómputo C";
+        case "centro": return "Centro de Cómputo";
         case "auditorio": return "Auditorio FIC";
         case "labCD": return "Laboratorio de Ciencia de Datos";
         case "labP": return "Laboratorio de Posgrado";

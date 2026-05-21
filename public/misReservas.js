@@ -93,9 +93,13 @@ async function detectarRolYCargar(user) {
         if (aulaStr === "AB") {
             adminAulas = ["Laboratorio de Cómputo A", "Laboratorio de Cómputo B"];
         } else if (aulaStr === "C") {
-            adminAulas = ["Laboratorio de Cómputo C"];
+            adminAulas = ["Centro de Cómputo"];
         } else if (aulaStr === "Auditorio") {
             adminAulas = ["Auditorio FIC"];
+        } else if (aulaStr === "CD") {
+            adminAulas = ["Laboratorio de Ciencia de Datos"];
+        } else if (aulaStr === "Posgrado") {
+            adminAulas = ["Laboratorio de Posgrado"];
         } else if (aulaStr) {
             adminAulas = [aulaStr];
         }
