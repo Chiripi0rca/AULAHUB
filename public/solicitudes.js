@@ -50,11 +50,11 @@ async function cargarSolicitudes(aulaAdmin, turnoAdmin, statusFilter) {
     let aulasAFiltrar = [];
     const aulaStr = String(aulaAdmin).trim();
     if (aulaStr === "AB") aulasAFiltrar = ["Laboratorio de Cómputo A", "Laboratorio de Cómputo B"];
-    else if (aulaStr === "C") aulasAFiltrar = ["Laboratorio de Cómputo C"];
+    else if (aulaStr === "C") aulasAFiltrar = ["Centro de Cómputo"];
     else if (aulaStr === "Auditorio") aulasAFiltrar = ["Auditorio FIC"];
     else if (aulaStr === "CD") aulasAFiltrar = ["Laboratorio de Ciencia de Datos"];
     else if (aulaStr === "Posgrado") aulasAFiltrar = ["Laboratorio de Posgrado"];
-    else if (aulaStr === "Todas") aulasAFiltrar = ["Laboratorio de Cómputo A", "Laboratorio de Cómputo B", "Laboratorio de Cómputo C", "Auditorio FIC", "Laboratorio de Ciencia de Datos", "Laboratorio de Posgrado"];
+    else if (aulaStr === "Todas") aulasAFiltrar = ["Laboratorio de Cómputo A", "Laboratorio de Cómputo B", "Centro de Cómputo", "Auditorio FIC", "Laboratorio de Ciencia de Datos", "Laboratorio de Posgrado"];
     else aulasAFiltrar = [aulaStr];
 
     try {
