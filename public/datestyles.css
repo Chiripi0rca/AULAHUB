@@ -129,6 +129,8 @@
 .calendar-day.selected { background-color: #164B8A; color: white; }
 .calendar-day.range { background-color: #e0f2fe; color: #164B8A; }
 .calendar-day.empty { cursor: default; background: none; }
+.calendar-day.past { color: #d1d5db; cursor: not-allowed; text-decoration: line-through; }
+.calendar-day.past:hover { background-color: transparent; }
 
 .week-container {
     max-width: 600px;
@@ -196,6 +198,8 @@
 }
 
 .time-slot-cell { cursor: pointer; }
+.time-slot-cell.past { background-color: #f3f4f6; color: #9ca3af; cursor: not-allowed; }
+.time-slot-cell.past:hover { background-color: #f3f4f6; }
 
 .time-slot-cell.selected {
     background-color: #e0f2fe;

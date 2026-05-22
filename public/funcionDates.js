@@ -269,6 +269,7 @@ async function cargarHorariosOcupados(fechaInicio, fechaFin) {
 }
 
 function handleCellClick(td, key) {
+    if (td.classList.contains('past')) { alert("Esta fecha u hora ya pasó. No puedes hacer reservas en fechas u horas anteriores a la actual."); return; }
     if (td.classList.contains('busy')) { alert(`Horario ocupado por: ${td.dataset.profesor}`); return; }
     if (td.classList.contains('pending-slot')) {
         if (isUserAdmin) {
@@ -332,6 +333,8 @@ function renderCalendar() {
 }
 
 function getDayClassName(date) {
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    if (date < today) return 'past';
     if (startDate && date.toDateString() === startDate.toDateString()) return 'selected';
     if (endDate && date.toDateString() === endDate.toDateString()) return 'selected';
     if (startDate && endDate && date > startDate && date < endDate) return 'range';
@@ -389,9 +392,19 @@ function renderSemana() {
             td.dataset.fecha = fechaStr;
             td.dataset.hora  = hora;
             const key = `${fechaStr}|${hora}`;
-            
-            if (selectedSlots.has(key)) td.classList.add('selected');
-            
+
+            const todayMidnight = new Date(); todayMidnight.setHours(0, 0, 0, 0);
+            const isDatePast = fechaCelda < todayMidnight;
+            const isTodayDate = fechaToISO(fechaCelda) === fechaToISO(new Date());
+            const slotStartHour = parseInt(hora.split(' - ')[0].split(':')[0], 10);
+            const isHourPast = isTodayDate && new Date().getHours() >= slotStartHour;
+
+            if (isDatePast || isHourPast) {
+                td.classList.add('past');
+            } else if (selectedSlots.has(key)) {
+                td.classList.add('selected');
+            }
+
             td.addEventListener('click', () => handleCellClick(td, key));
             
             tr.appendChild(td);
@@ -419,6 +432,11 @@ function updateSelectedDatesFromSlots() {
 
 window.selectDate = function(day) {
     const clickedDate = new Date(currentYear, currentMonth, day);
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    if (clickedDate < today) {
+        alert("Esta fecha ya pasó. No puedes seleccionar fechas anteriores al día de hoy.");
+        return;
+    }
     currentWeekStart = getStartOfWeek(clickedDate);
     renderCalendar(); renderSemana();
 };
